@@ -1,8 +1,9 @@
 import 'userProvider.dart';
+import 'eventProvider.dart';
 
 abstract class Singleton {
   CitizenProvider get citizenProvider;
-  EventOrganizerProvider get eventOrganizerProvider;
+  EventProvider get eventProvider;
 }
 
 class ImplementedSingleton implements Singleton {
@@ -10,11 +11,14 @@ class ImplementedSingleton implements Singleton {
   new ImplementedSingleton._internal();
 
   CitizenProvider citizenProvider = MockCitizenProvider(); //TODO: Replace with APICitizenProvider in Sprint2
-  EventOrganizerProvider eventOrganizerProvider = MockEventOrganizerProvider(); //TODO: Replace later
 
   factory ImplementedSingleton() {
     return _singleton;
   }
 
   ImplementedSingleton._internal();
+
+  @override
+  // TODO: implement eventProvider
+  get eventProvider => null;
 }
