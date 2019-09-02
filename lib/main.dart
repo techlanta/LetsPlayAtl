@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_selectedIndex == 0) {
       return Text("Sign up/login");
     } else if (_selectedIndex == 1) {
-      return Text("Map here!");
+      return MapPage();
     } else {
       return Text("ERROR! Some index value isn't supported! $_selectedIndex");
     }
