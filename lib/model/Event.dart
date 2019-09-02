@@ -6,7 +6,7 @@ class Event {
 
   bool RSVP = false;
 
-  Event() { //not sure if I need to implement serializable
+  Event() {
 
   }
 
@@ -14,11 +14,9 @@ class Event {
   DateTime dateEnd;
   String name;
   String description;
-  Double latitude;
-  Double longitude;
+  double latitude;
+  double longitude;
   String eventID;
-
-  //can change to var? not sure we want type annotations or generic
 
   void setEventID(String eventID) {
     this.eventID = eventID;

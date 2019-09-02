@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/screens/registrationScreen.dart';
+import 'package:lets_play_atl/screens/loginScreen.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -7,7 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Let's Play ATL",
+      routes: <String, WidgetBuilder> {
+        '/register': (BuildContext context) => new RegistrationScreen(),
+        '/login': (BuildContext context) => new LoginScreen(),
+      },
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -18,9 +25,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: "Let's Play ATL"),
     );
   }
 }
@@ -44,18 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,41 +66,88 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+        backgroundColor: Colors.lightGreen[50],
+        resizeToAvoidBottomPadding: false,
+        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: <
+            Widget>[
+          Container(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
+                  decoration: new BoxDecoration(
+                      color: Colors.lightGreen[100]
+                  ),
+                  child: Text(
+                    "WELCOME TO LET'S PLAY ATL",
+                    style:
+                    TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          ),
+          Container(
+              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 60.0),
+                  Container(
+                      height: 60.0,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(20.0),
+                        shadowColor: Colors.greenAccent,
+                        color: Colors.green,
+                        elevation: 7.0,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/login');
+                          },
+                          child: Center(
+                            child: Text(
+                              'LOG IN',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat'),
+                            ),
+                          ),
+                        ),
+                      )),
+                  SizedBox(height: 60.0),
+                  Container(
+                    height: 60.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors. grey,
+                              blurRadius: 40.0,
+                              spreadRadius: .5)],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/register');;
+                        },
+                        child:
+
+                        Center(
+                          child: Text('SIGN UP',
+                              style: TextStyle(
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat')),
+                        ),
+
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ])
     );
   }
 }
