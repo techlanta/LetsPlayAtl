@@ -70,7 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.green,
                         elevation: 7.0,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/events');
+                          },
                           child: Center(
                             child: Text(
                               'LOG IN',
