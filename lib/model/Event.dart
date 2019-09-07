@@ -1,21 +1,18 @@
 //looked at Event.java from demo
-
-import 'package:date_utils/date_utils.dart';
+import 'package:date_util/date_util.dart';
+import 'package:latlong/latlong.dart';
 
 class Event {
 
   bool RSVP = false;
 
-  Event() { //not sure if I need to implement serializable
-
-  }
+  Event(this.name, this.description, this.latLng);
 
   DateTime dateStart;
   DateTime dateEnd;
   String name;
   String description;
-  Double latitude;
-  Double longitude;
+  LatLng latLng;
   String eventID;
 
   //can change to var? not sure we want type annotations or generic
