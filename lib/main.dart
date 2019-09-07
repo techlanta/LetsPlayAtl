@@ -156,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
