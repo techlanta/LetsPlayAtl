@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/screens/eventDetails.dart';
 import 'package:lets_play_atl/screens/registrationScreen.dart';
 import 'package:lets_play_atl/screens/loginScreen.dart';
 import 'package:lets_play_atl/screens/eventList.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
         '/register': (BuildContext context) => new RegistrationScreen(),
         '/login': (BuildContext context) => new LoginScreen(),
         '/events': (BuildContext context) => new EventList(),
+        '/eventDetails': (BuildContext context) => new EventDetails(),
       },
       theme: ThemeData(
         primarySwatch: Colors.green,

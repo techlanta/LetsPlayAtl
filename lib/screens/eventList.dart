@@ -24,7 +24,9 @@ class _EventListState extends State<EventList> {
                         padding: const EdgeInsets.all(8.0),
                             children: <Widget>[
                                 GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/eventDetails');
+                                    },
                                     child: Container(
                                     height: 50,
                                     color: Colors.amber[600],
