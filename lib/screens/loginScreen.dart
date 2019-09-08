@@ -7,6 +7,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -40,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: <Widget>[
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                         labelText: 'EMAIL ',
                         labelStyle: TextStyle(
@@ -51,6 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                         labelText: 'PASSWORD ',
                         labelStyle: TextStyle(
@@ -70,7 +74,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.green,
                         elevation: 7.0,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            if (emailController.text == "jd@gmail.com" &&
+                                passwordController.text == "1234") {
+                              Navigator.of(context).pushNamed('/events');
+//                              Navigator.push(context,
+//                                  MaterialPageRoute(builder: (context) => new eventList(),
+                            }
+                          },
                           child: Center(
                             child: Text(
                               'LOG IN',

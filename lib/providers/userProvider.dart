@@ -12,7 +12,7 @@ abstract class CitizenProvider {
 }
 
 class MockCitizenProvider extends CitizenProvider {
-  User fakeUser = User("Jane", "Doe", "jd@gmail.com");
+  User fakeUser = User("Jane", "jd@gmail.com", "1234");
   bool didLogIn;
 
   MockCitizenProvider() {
@@ -21,6 +21,8 @@ class MockCitizenProvider extends CitizenProvider {
   bool isLoggedIn() {
     return didLogIn;
   }
+
+
   @override
   User getCurrentUser() {
     if (didLogIn) {

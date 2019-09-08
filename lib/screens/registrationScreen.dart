@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/screens/loginScreen.dart';
+
 
 
 
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
+
+
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   Widget build(BuildContext context) {
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
@@ -51,6 +57,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                         labelText: 'EMAIL ',
                         labelStyle: TextStyle(
@@ -62,6 +69,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                         labelText: 'PASSWORD ',
                         labelStyle: TextStyle(
@@ -81,7 +89,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         color: Colors.green,
                         elevation: 7.0,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            if (emailController.text == "jd@gmail.com" &&
+                                passwordController.text == "1234") {
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => new LoginScreen(),
+                                ),
+
+                              );
+
+                            }
+                          },
                           child: Center(
                             child: Text(
                               'SIGNUP',
