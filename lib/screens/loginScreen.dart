@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -78,8 +77,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (emailController.text == "jd@gmail.com" &&
                                 passwordController.text == "1234") {
                               Navigator.of(context).pushNamed('/events');
-//                              Navigator.push(context,
-//                                  MaterialPageRoute(builder: (context) => new eventList(),
+                            } else {
+                              return showDialog<void> (
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Incorrect email or password."),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             }
                           },
                           child: Center(

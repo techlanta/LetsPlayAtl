@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lets_play_atl/screens/loginScreen.dart';
 
 
 
@@ -92,11 +91,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           onTap: () {
                             if (emailController.text == "jd@gmail.com" &&
                                 passwordController.text == "1234") {
-                              Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => new LoginScreen(),
-                                ),
-
-                              );
+                              Navigator.of(context).pushNamed('/login');
 
                             }
                           },
