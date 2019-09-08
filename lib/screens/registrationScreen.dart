@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 
+
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -58,7 +59,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
-                    obscureText: true,
                   ),
                   SizedBox(height: 10.0),
                   TextField(
@@ -70,6 +70,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
+                    obscureText: true,
                   ),
                   SizedBox(height: 60.0),
                   Container(

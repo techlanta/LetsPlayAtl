@@ -48,7 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
-                    obscureText: true,
                   ),
                   SizedBox(height: 10.0),
                   TextField(
@@ -60,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
+                    obscureText: true,
                   ),
                   SizedBox(height: 60.0),
                   Container(
