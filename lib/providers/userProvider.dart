@@ -6,7 +6,7 @@ abstract class EventOrganizerProvider {
 
 
 abstract class CitizenProvider {
-  bool login(String user, pass);
+  Future<bool> login(String email, pass);
   User getCurrentUser();
   bool isLoggedIn(); // If a logged in user is currently stored in app
 }
@@ -33,11 +33,11 @@ class MockCitizenProvider extends CitizenProvider {
   }
 
   @override
-  bool login(String user, pass) {
-    if (fakeUser.name == user && fakeUser.password == pass) {
+  Future<bool> login(String email, pass) async {
+    if (fakeUser.email == email && fakeUser.password == pass) {
       didLogIn = true;
     }
-    return didLogIn;
+    return (didLogIn);
   }
 
 }
@@ -51,7 +51,7 @@ class APICitizenProvider extends CitizenProvider {
   }
 
   @override
-  bool login(String user, pass) {
+  Future<bool> login(String user, pass) {
     // TODO: implement login
     return null;
   }

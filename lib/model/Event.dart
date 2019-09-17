@@ -4,11 +4,9 @@ import 'package:date_utils/date_utils.dart';
 
 class Event {
 
+  Event({this.name, this.description, this.latitude, this.longitude, this.dateStart, this.dateEnd, this.eventID});
+
   bool RSVP = false;
-
-  Event() {
-
-  }
 
   DateTime dateStart;
   DateTime dateEnd;

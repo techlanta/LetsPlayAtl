@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/providers/singleton.dart';
 import 'package:lets_play_atl/screens/eventDetails.dart';
 import 'package:lets_play_atl/screens/registrationScreen.dart';
 import 'package:lets_play_atl/screens/loginScreen.dart';
@@ -7,14 +8,18 @@ import 'package:lets_play_atl/screens/eventList.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  Singleton singleton;
+  MyApp() {
+    singleton = ImplementedSingleton();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Let's Play ATL",
       routes: <String, WidgetBuilder>{
         '/register': (BuildContext context) => new RegistrationScreen(),
-        '/login': (BuildContext context) => new LoginScreen(),
-        '/events': (BuildContext context) => new EventList(),
+        '/login': (BuildContext context) => new LoginScreen(singleton),
+        '/events': (BuildContext context) => new EventList(singleton),
         '/eventDetails': (BuildContext context) => new EventDetails(),
       },
       theme: ThemeData(

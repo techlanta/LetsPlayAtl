@@ -6,8 +6,9 @@ abstract class EventProvider {
 class MockEventProvider extends EventProvider {
   @override
   List<Event> getAllEvents() {
-    // TODO: implement getAllEvents
-    return [];
+    return [
+      Event(name: "Momo's Community PotLuck", latitude: 10, longitude: 20, )
+    ];
   }
 
 }

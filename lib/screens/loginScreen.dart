@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/providers/singleton.dart';
 
 class LoginScreen extends StatefulWidget {
+  Singleton singleton;
+  LoginScreen(this.singleton);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -74,27 +77,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         elevation: 7.0,
                         child: GestureDetector(
                           onTap: () {
-                            if (emailController.text == "jd@gmail.com" &&
-                                passwordController.text == "1234") {
-                              Navigator.of(context).pushNamed('/events');
-                            } else {
-                              return showDialog<void> (
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Incorrect email or password."),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text("Ok"),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                            widget.singleton.citizenProvider
+                                .login(emailController.text, passwordController.text)
+                                .then( (res) {
+                                  if (res) {
+                                    Navigator.pushNamedAndRemoveUntil(context, '/events', (Route route) {return false;});
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Incorrect email or password."),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text("Ok"),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    );
+                                  }
                             }
+                            );
                           },
                           child: Center(
                             child: Text(

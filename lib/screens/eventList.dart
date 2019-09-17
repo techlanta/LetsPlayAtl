@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/providers/singleton.dart';
 
 
 class EventList extends StatefulWidget {
+    Singleton singleton;
+    EventList(this.singleton);
     @override
     _EventListState createState() => _EventListState();
 }
@@ -20,33 +23,25 @@ class _EventListState extends State<EventList> {
 //                Widget>[
                 body:
                     Container(
-                        child: ListView(
-                        padding: const EdgeInsets.all(8.0),
-                            children: <Widget>[
-                                GestureDetector(
+                        child: ListView.builder(
+                            itemCount: 10,
+                        padding: const EdgeInsets.all(12.0),
+                            itemBuilder: (BuildContext c, int index) {
+                                return GestureDetector(
                                     onTap: () {
-                                      Navigator.of(context).pushNamed('/eventDetails');
+                                        Navigator.of(context).pushNamed('/eventDetails');
                                     },
-                                    child: Container(
-                                    height: 50,
-                                    color: Colors.amber[600],
-                                        child: const Center(child: Text('Entry A')),
-                                    ),),
-                                GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                        height: 50,
-                                        color: Colors.amber[500],
-                                        child: const Center(child: Text('Entry B')),
-                                    ),),
-                                GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                        height: 50,
-                                        color: Colors.amber[100],
-                                        child: const Center(child: Text('Entry C')),
-                                    ),),
-                                ]),
+                                    child: Card(
+                                        child: Column(
+                                            children: [
+                                                ListTile(
+                                                    leading:Text("Event $index")
+                                                )
+                                            ]
+                                        )
+                                    ));
+                            },
+                            ),
                     ),
             );
     }
