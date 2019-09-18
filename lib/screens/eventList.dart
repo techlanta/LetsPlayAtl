@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/model/Event.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
 
 
@@ -12,6 +13,7 @@ class EventList extends StatefulWidget {
 class _EventListState extends State<EventList> {
     @override
     Widget build(BuildContext context) {
+        List<Event> events = widget.singleton.eventProvider.getAllEvents();
         return new Scaffold(
             appBar: AppBar(
                 title: Text("Events"),
@@ -24,18 +26,18 @@ class _EventListState extends State<EventList> {
                 body:
                     Container(
                         child: ListView.builder(
-                            itemCount: 10,
+                            itemCount: events.length,
                         padding: const EdgeInsets.all(12.0),
                             itemBuilder: (BuildContext c, int index) {
                                 return GestureDetector(
                                     onTap: () {
-                                        Navigator.of(context).pushNamed('/eventDetails');
+                                    Navigator.of(context).pushNamed('/eventDetails', );
                                     },
                                     child: Card(
                                         child: Column(
                                             children: [
                                                 ListTile(
-                                                    leading:Text("Event $index")
+                                                    leading:Text(events[index].name)
                                                 )
                                             ]
                                         )

@@ -23,13 +23,11 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                  decoration: new BoxDecoration(
-                      color: Colors.lightGreen[100]
-                  ),
+                  decoration: new BoxDecoration(color: Colors.lightGreen[100]),
                   child: Text(
                     "LOG IN",
                     style:
-                    TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
@@ -68,83 +66,80 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                   ),
                   SizedBox(height: 60.0),
-                  Container(
-                      height: 60.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
-                        elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () {
-                            widget.singleton.citizenProvider
-                                .login(emailController.text, passwordController.text)
-                                .then( (res) {
-                                  if (res) {
-                                    Navigator.pushNamedAndRemoveUntil(context, '/events', (Route route) {return false;});
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("Incorrect email or password."),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text("Ok"),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      }
-                                    );
-                                  }
-                            }
-                            );
-                          },
-                          child: Center(
-                            child: Text(
-                              'LOG IN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat'),
+                  GestureDetector(
+                      onTap: () {
+                        widget.singleton.citizenProvider
+                            .login(
+                                emailController.text, passwordController.text)
+                            .then((res) {
+                          if (res) {
+                            Navigator.of(context).pushNamed('/events');
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Incorrect email or password."),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
+                        });
+                      },
+                      child: Container(
+                          height: 60.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            shadowColor: Colors.greenAccent,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: Center(
+                              child: Text(
+                                'LOG IN',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat'),
+                              ),
                             ),
-                          ),
-                        ),
-                      )),
+                          ))),
                   SizedBox(height: 20.0),
                   Container(
                     height: 40.0,
                     child: Container(
                       decoration: BoxDecoration(
-                          boxShadow: [BoxShadow(color: Colors. grey,
-                              blurRadius: 40.0,
-                              spreadRadius: .5)],
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 40.0,
+                                spreadRadius: .5)
+                          ],
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20.0)),
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
                         },
-                        child:
-
-                        Center(
+                        child: Center(
                           child: Text('Go Back',
                               style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Montserrat')),
                         ),
-
                       ),
                     ),
                   ),
                 ],
               )),
-
         ]));
   }
 }

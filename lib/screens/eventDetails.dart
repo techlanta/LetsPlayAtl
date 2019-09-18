@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lets_play_atl/model/Event.dart';
 
 class EventDetails extends StatefulWidget {
+  Event e;
+  EventDetails({this.e});
   @override
   _EventDetailsState createState() => _EventDetailsState();
 
