@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lets_play_atl/model/Event.dart';
 
 class EventDetails extends StatefulWidget {
-  Event e;
-  EventDetails({this.e});
+  Event event;
+  EventDetails({this.event});
   @override
   _EventDetailsState createState() => _EventDetailsState();
 
@@ -12,6 +12,14 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
   @override
   Widget build(BuildContext context) {
+    Event event = ModalRoute.of(context).settings.arguments;
+    String name = event.name;
+    String date;
+    if (event.dateStart != null) {
+      date = event.dateStart.toString();
+    } else {
+      date = "ONGOING!";
+    }
     return new Scaffold(
       appBar: AppBar(
         title: Text("Event Details"),
@@ -31,14 +39,14 @@ class _EventDetailsState extends State<EventDetails> {
                 child: Container(
                   height: 50,
                   color: Colors.blue[600],
-                  child: const Center(child: Text('Name:')),
+                  child: Center(child: Text('Name: $name')),
                 ),),
               GestureDetector(
                 onTap: () {},
                 child: Container(
                   height: 50,
                   color: Colors.blue[600],
-                  child: const Center(child: Text('Date:')),
+                  child: Center(child: Text('Date: $date')),
                 ),),
               GestureDetector(
                 onTap: () {},

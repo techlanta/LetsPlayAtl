@@ -31,7 +31,7 @@ class _EventListState extends State<EventList> {
                             itemBuilder: (BuildContext c, int index) {
                                 return GestureDetector(
                                     onTap: () {
-                                    Navigator.of(context).pushNamed('/eventDetails', );
+                                    Navigator.of(context).pushNamed('/eventDetails', arguments: events[index]);
                                     },
                                     child: Card(
                                         child: Column(
