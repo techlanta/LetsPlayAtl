@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 emailController.text, passwordController.text)
                             .then((res) {
                           if (res) {
-                            Navigator.of(context).pushNamed('/events');
+                            Navigator.of(context).pushNamed('/main');
                           } else {
                             showDialog(
                                 context: context,

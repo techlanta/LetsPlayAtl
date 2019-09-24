@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
+import 'package:lets_play_atl/screens/afterLoginScreen.dart';
 import 'package:lets_play_atl/screens/eventDetails.dart';
 import 'package:lets_play_atl/screens/registrationScreen.dart';
 import 'package:lets_play_atl/screens/loginScreen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => new LoginScreen(singleton),
         '/events': (BuildContext context) => new EventList(singleton),
         '/eventDetails': (BuildContext context) => new EventDetails(),
+        '/main': (BuildContext context) => new AfterLoginScreen(singleton)
       },
       theme: ThemeData(
         primarySwatch: Colors.green,
@@ -132,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_selectedIndex == 0) {
       return LoginSignup();
     } else if (_selectedIndex == 1) {
-      return Text("Map here!");
+      return SOSSIInfo();
     } else {
       return Text("ERROR! Some index value isn't supported! $_selectedIndex");
     }
@@ -172,11 +174,28 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text("Login/Signup"),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.map), title: Text("Events Near Me")),
+              icon: Icon(Icons.map), title: Text("Info About SOSSI")),
         ],
         onTap: changeIndex,
       ),
     );
   }
 }
+
+class SOSSIInfo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child:
+            Column(children:[
+        Text("Saving Our Sons & Sisters international (SOSSI) is a 501(c)3 nonprofit organization that transforms and improves the overall success of the youth, veterans, seniors, families, and communities. Our intergenerational approach creates an ecosystem focused on exposure, developing strategic partnerships between community, educators, industry professionals, nonprofits, and professionals committing services, time and resources to develop a STEM-ready workforce and access to opportunities."),
+              Image.asset("assets/sossialpha.png")
+    ]))
+    );
+  }
+
+}
+
 
