@@ -10,7 +10,7 @@ class ImplementedSingleton implements Singleton {
   static final ImplementedSingleton _singleton =
   new ImplementedSingleton._internal();
 
-  CitizenProvider citizenProvider = MockCitizenProvider(); //TODO: Replace with APICitizenProvider in Sprint2
+  CitizenProvider citizenProvider = APICitizenProvider(); //TODO: Replace with APICitizenProvider in Sprint2
 
   factory ImplementedSingleton() {
     return _singleton;
