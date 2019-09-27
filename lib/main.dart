@@ -5,6 +5,8 @@ import 'package:lets_play_atl/screens/eventDetails.dart';
 import 'package:lets_play_atl/screens/registrationScreen.dart';
 import 'package:lets_play_atl/screens/loginScreen.dart';
 import 'package:lets_play_atl/screens/eventList.dart';
+import 'package:lets_play_atl/screens/createEventScreen.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -22,7 +24,9 @@ class MyApp extends StatelessWidget {
         '/login': (BuildContext context) => new LoginScreen(singleton),
         '/events': (BuildContext context) => new EventList(singleton),
         '/eventDetails': (BuildContext context) => new EventDetails(),
-        '/main': (BuildContext context) => new AfterLoginScreen(singleton)
+        '/main': (BuildContext context) => new AfterLoginScreen(singleton),
+        '/createEvent': (BuildContext context) => new CreateEventScreen(singleton),
+
       },
       theme: ThemeData(
         primarySwatch: Colors.green,
