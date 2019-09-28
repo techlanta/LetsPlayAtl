@@ -34,9 +34,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               ],
             ),
           ),
-          Container(
-              padding: EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
-              child: Column(
+          Expanded(
+//              padding: EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+              child: ListView(
                 children: <Widget>[
                   SizedBox(height: 10.0),
                   TextField(

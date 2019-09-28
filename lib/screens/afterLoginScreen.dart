@@ -30,8 +30,10 @@ class AfterLoginScreenState extends State<AfterLoginScreen> {
   Widget getCurrentSubwidget() {
     if (_selectedIndex == 0) {
       return EventList(widget.singleton);
-    } else {
+    } else if (_selectedIndex == 1) {
       return MapScreen(widget.singleton);
+    } else if (_selectedIndex == 2) {
+      return Text("Setting Page will be here");
     }
   }
 
@@ -48,6 +50,9 @@ class AfterLoginScreenState extends State<AfterLoginScreen> {
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.map), title: Text("Event Map")),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings), title: Text("Account Settings")
+          )
         ],
         onTap: changeIndex,
       ),

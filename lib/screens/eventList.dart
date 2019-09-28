@@ -20,9 +20,6 @@ class _EventListState extends State<EventList> {
             ),
             backgroundColor: Colors.lightGreen[50],
             resizeToAvoidBottomPadding: false,
-//            body: Container(
-////                crossAxisAlignment: CrossAxisAlignment.center, children: <
-//                Widget>[
                 body:
                     Container(
                         child: ListView.builder(
@@ -45,6 +42,12 @@ class _EventListState extends State<EventList> {
                             },
                             ),
                     ),
+            floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                    Navigator.of(context).pushNamed("/createEvent");
+                },
+            ),
             );
     }
 }
