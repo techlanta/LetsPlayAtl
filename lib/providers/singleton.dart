@@ -20,5 +20,5 @@ class ImplementedSingleton implements Singleton {
 
   @override
   // TODO: implement eventProvider
-  get eventProvider => MockEventProvider();
+  get eventProvider => APIEventProvider();
 }

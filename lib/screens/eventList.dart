@@ -7,13 +7,28 @@ class EventList extends StatefulWidget {
     Singleton singleton;
     EventList(this.singleton);
     @override
-    _EventListState createState() => _EventListState();
+    _EventListState createState() => _EventListState(singleton);
 }
 
 class _EventListState extends State<EventList> {
+    bool isLoading = true;
+    List<Event> events;
+
+    _EventListState(Singleton s) {
+        events = [];
+        s.eventProvider.getAllEvents().then((loadedEvents){
+           events = loadedEvents;
+           setState(() {
+             isLoading = false;
+           });
+        });
+    }
     @override
     Widget build(BuildContext context) {
-        List<Event> events = widget.singleton.eventProvider.getAllEvents();
+
+        if (isLoading) {
+            return Center(child:CircularProgressIndicator());
+        }
         return new Scaffold(
             appBar: AppBar(
                 title: Text("Events"),
