@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Let's Play ATL",
       routes: <String, WidgetBuilder>{
-        '/register': (BuildContext context) => new RegistrationScreen(),
+        '/register': (BuildContext context) => new RegistrationScreen(singleton),
         '/login': (BuildContext context) => new LoginScreen(singleton),
         '/events': (BuildContext context) => new EventList(singleton),
         '/eventDetails': (BuildContext context) => new EventDetails(),
