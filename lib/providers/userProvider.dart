@@ -40,6 +40,9 @@ class APICitizenProvider extends CitizenProvider {
         headers: header
     );
     Map<dynamic, dynamic> loginBody = jsonDecode(login.body);
+    if (loginBody["status"]) {
+      currentUser = User(loginBody["fullname"], email, pass);
+    }
     return loginBody["status"];
   }
 

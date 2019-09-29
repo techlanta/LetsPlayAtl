@@ -13,14 +13,19 @@ class EventList extends StatefulWidget {
 class _EventListState extends State<EventList> {
     bool isLoading = true;
     List<Event> events;
+    Singleton s;
 
-    _EventListState(Singleton s) {
+    _EventListState(this.s) {
         events = [];
+        reloadEvents();
+    }
+
+    void reloadEvents() {
         s.eventProvider.getAllEvents().then((loadedEvents){
-           events = loadedEvents;
-           setState(() {
-             isLoading = false;
-           });
+            events = loadedEvents;
+            setState(() {
+                isLoading = false;
+            });
         });
     }
     @override
