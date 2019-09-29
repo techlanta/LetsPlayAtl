@@ -79,10 +79,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           height: 60.0,
                           child: GestureDetector(
                             onTap: () {
-                              if (emailController.text == "jd@gmail.com" &&
-                                  passwordController.text == "1234") {
+//                              if (emailController.text == "jd@gmail.com" &&
+//                                  passwordController.text == "1234")
                                 Navigator.of(context).pushNamed('/login');
-                              }
+
                             },
                             child: Material(
                               borderRadius: BorderRadius.circular(20.0),

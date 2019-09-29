@@ -14,12 +14,16 @@ class _EventDetailsState extends State<EventDetails> {
   Widget build(BuildContext context) {
     Event event = ModalRoute.of(context).settings.arguments;
     String name = event.name;
-    String date;
-    if (event.dateStart != null) {
-      date = event.dateStart.toString();
-    } else {
-      date = "ONGOING!";
-    }
+    String date = event.date;
+//    if (event.dateStart != null) {
+//      date = event.dateStart.toString();
+//    } else {
+//      date = "ONGOING!";
+//    }
+    String startTime = event.startTime;
+    String endTime = event.endTime;
+    String description = event.description;
+
     return new Scaffold(
       appBar: AppBar(
         title: Text("Event Details"),
@@ -53,21 +57,21 @@ class _EventDetailsState extends State<EventDetails> {
                 child: Container(
                   height: 50,
                   color: Colors.blue[600],
-                  child: const Center(child: Text('Start Time:')),
+                  child:  Center(child: Text('Start Time: $startTime')),
                 ),),
               GestureDetector(
                 onTap: () {},
                 child: Container(
                   height: 50,
                   color: Colors.blue[600],
-                  child: const Center(child: Text('End Time:')),
+                  child:  Center(child: Text('End Time: $endTime')),
                 ),),
               GestureDetector(
                 onTap: () {},
                 child: Container(
                   height: 50,
                   color: Colors.blue[600],
-                  child: const Center(child: Text('Details:')),
+                  child:  Center(child: Text('Details: $description')),
                 ),),
             ]),
       ),

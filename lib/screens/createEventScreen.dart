@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
+import 'package:lets_play_atl/model/Event.dart';
+
+
+
 
 class CreateEventScreen extends StatefulWidget {
   Singleton singleton;
@@ -9,8 +13,14 @@ class CreateEventScreen extends StatefulWidget {
 }
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController dateController = new TextEditingController();
+  TextEditingController startTimeController = new TextEditingController();
+  TextEditingController endTimeController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+//    List<Event> events = widget.singleton.eventProvider.getAllEvents();
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
         resizeToAvoidBottomPadding: false,
@@ -40,6 +50,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 children: <Widget>[
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: nameController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'EVENT NAME',
@@ -52,6 +63,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: dateController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'DATE',
@@ -65,6 +77,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: startTimeController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'START TIME',
@@ -78,6 +91,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: endTimeController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'END TIME',
@@ -90,20 +104,22 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     obscureText: false,
                   ),
                   SizedBox(height: 10.0),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'LOCATION',
-                        labelStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))),
-                    obscureText: false,
-                  ),
+//                  TextField(
+//                    controller: locationController,
+//                    decoration: InputDecoration(
+//                        border: OutlineInputBorder(),
+//                        labelText: 'LOCATION',
+//                        labelStyle: TextStyle(
+//                            fontFamily: 'Montserrat',
+//                            fontWeight: FontWeight.bold,
+//                            color: Colors.grey),
+//                        focusedBorder: UnderlineInputBorder(
+//                            borderSide: BorderSide(color: Colors.green))),
+//                    obscureText: false,
+//                  ),
                   SizedBox(height: 10.0),
                   TextField(
+                    controller: descriptionController,
                     keyboardType: TextInputType.multiline,
                     maxLines: 7,
                     decoration: InputDecoration(
@@ -121,7 +137,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   GestureDetector(
                       onTap: () {
 //                        widget.singleton.eventProvider
-                        Navigator.of(context).pushNamed('/main');
+//                        MaterialPageRoute(
+////                        builder: (context) => eventDetails(name: nameController,));
+                        Navigator.of(context).pushNamed('/eventDetails',
+                            arguments: Event(name: nameController.text, date: dateController.text, startTime: startTimeController.text,
+                            endTime: endTimeController.text, description: descriptionController.text));
                       },
                       child: Container(
                           height: 60.0,
