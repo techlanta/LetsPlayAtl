@@ -33,7 +33,7 @@ class AfterLoginScreenState extends State<AfterLoginScreen> {
     } else if (_selectedIndex == 1) {
       return MapScreen(widget.singleton);
     } else if (_selectedIndex == 2) {
-      return Text("Setting Page will be here");
+      return Center(child: Text("Setting Page will be here"));
     }
   }
 
