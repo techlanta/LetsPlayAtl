@@ -5,11 +5,13 @@ class EventDetails extends StatefulWidget {
   Event event;
   EventDetails({this.event});
   @override
-  _EventDetailsState createState() => _EventDetailsState();
+  _EventDetailsState createState() => _EventDetailsState(event);
 
 }
 
 class _EventDetailsState extends State<EventDetails> {
+  Event e;
+  _EventDetailsState(this.e);
   @override
   Widget build(BuildContext context) {
     Event event = ModalRoute.of(context).settings.arguments;
@@ -75,7 +77,7 @@ class _EventDetailsState extends State<EventDetails> {
                 ),),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed("/editEvent", arguments: widget.event);
+                  Navigator.of(context).pushNamed("/editEvent", arguments: event);
                 },
                 child: Container(
                   height: 50,

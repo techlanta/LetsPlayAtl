@@ -8,7 +8,7 @@ class EventDetailsEditor extends StatefulWidget {
   Singleton singleton;
   EventDetailsEditor(this.singleton, {this.event});
   @override
-  State createState() => _EventDetailsEditorState(event);
+  State createState() => _EventDetailsEditorState();
 
 }
 
@@ -19,10 +19,13 @@ class _EventDetailsEditorState extends State<EventDetailsEditor> {
   TextEditingController startTimeController = new TextEditingController();
   TextEditingController endTimeController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
-  _EventDetailsEditorState(this.e);
+  _EventDetailsEditorState() {
+  }
 
   @override
   Widget build(BuildContext context) {
+    e = ModalRoute.of(context).settings.arguments;
+
     //    List<Event> events = widget.singleton.eventProvider.getAllEvents();
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
