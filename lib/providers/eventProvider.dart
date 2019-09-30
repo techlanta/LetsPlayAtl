@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 abstract class EventProvider {
   Future<List<Event>> getAllEvents();
   Future<bool> createEvent(Event e, String username, password);
+  Future<bool> updateEvent(Event e, String username, password);
 }
 
 class APIEventProvider extends EventProvider {
@@ -52,6 +53,30 @@ class APIEventProvider extends EventProvider {
     return eventCreationBody["status"] == "created";
   }
 
+  @override
+  Future<bool> updateEvent(Event e, String username, password) async {
+    Map<String, String> body = {}, header = {};
+
+    body["name"] = e.name;
+    body["description"] = e.description;
+    body["id"] = e.eventID;
+
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    header["Content-Type"] = "application/json";
+    header["Authorization"] = basicAuth;
+
+    http.Response eventCreation = await http.put(apiBase + "/event",
+        body: json.encode(body),
+        headers: header
+    );
+    Map<dynamic, dynamic> eventCreationBody = jsonDecode(eventCreation.body);
+
+    return eventCreationBody["status"] == "updated";
+  }
+
 }
 
 class MockEventProvider extends EventProvider {
@@ -66,6 +91,12 @@ class MockEventProvider extends EventProvider {
   @override
   Future<bool> createEvent(Event e, String username, password) {
     // TODO: implement createEvent
+    return null;
+  }
+
+  @override
+  Future<bool> updateEvent(Event e, String username, password) {
+    // TODO: implement updateEvent
     return null;
   }
 

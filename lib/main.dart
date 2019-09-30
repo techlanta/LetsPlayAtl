@@ -6,6 +6,7 @@ import 'package:lets_play_atl/screens/registrationScreen.dart';
 import 'package:lets_play_atl/screens/loginScreen.dart';
 import 'package:lets_play_atl/screens/eventList.dart';
 import 'package:lets_play_atl/screens/createEventScreen.dart';
+import 'package:lets_play_atl/screens/editEventScreen.dart';
 
 
 void main() => runApp(MyApp());
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
         '/eventDetails': (BuildContext context) => new EventDetails(),
         '/main': (BuildContext context) => new AfterLoginScreen(singleton),
         '/createEvent': (BuildContext context) => new CreateEventScreen(singleton),
+        '/editEvent': (BuildContext context) => new EventDetailsEditor(singleton),
+
 
       },
       theme: ThemeData(
@@ -40,85 +43,85 @@ class MyApp extends StatelessWidget {
 class LoginSignup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                      decoration:
-                      new BoxDecoration(color: Colors.lightGreen[100]),
-                      child: Text(
-                        "WELCOME TO LET'S PLAY ATL",
-                        style: TextStyle(
-                            fontSize: 48.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
-                    )
-                  ],
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
+                  decoration:
+                  new BoxDecoration(color: Colors.lightGreen[100]),
+                  child: Text(
+                    "WELCOME TO LET'S PLAY ATL",
+                    style: TextStyle(
+                        fontSize: 48.0, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              Container(
-                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 60.0),
-                      Container(
-                          height: 60.0,
-                          child: Material(
-                            borderRadius: BorderRadius.circular(20.0),
-                            shadowColor: Colors.greenAccent,
-                            color: Colors.green,
-                            elevation: 7.0,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed('/login');
-                              },
-                              child: Center(
-                                child: Text(
-                                  'LOG IN',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat'),
-                                ),
-                              ),
-                            ),
-                          )),
-                      SizedBox(height: 60.0),
-                      Container(
-                        height: 60.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 40.0,
-                                    spreadRadius: .5)
-                              ],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0)),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/register');
-                            },
-                            child: Center(
-                              child: Text('SIGN UP',
-                                  style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat')),
+                Container(
+                  padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
+                )
+              ],
+            ),
+          ),
+          Container(
+              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 60.0),
+                  Container(
+                      height: 60.0,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(20.0),
+                        shadowColor: Colors.greenAccent,
+                        color: Colors.green,
+                        elevation: 7.0,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/login');
+                          },
+                          child: Center(
+                            child: Text(
+                              'LOG IN',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat'),
                             ),
                           ),
                         ),
+                      )),
+                  SizedBox(height: 60.0),
+                  Container(
+                    height: 60.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 40.0,
+                                spreadRadius: .5)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/register');
+                        },
+                        child: Center(
+                          child: Text('SIGN UP',
+                              style: TextStyle(
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat')),
+                        ),
                       ),
-                    ],
-                  )),
-            ]);
+                    ),
+                  ),
+                ],
+              )),
+        ]);
   }
 }
 
@@ -190,16 +193,15 @@ class SOSSIInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child:
+        child: Padding(
+            padding: EdgeInsets.all(20),
+            child:
             Column(children:[
-        Text("Saving Our Sons & Sisters international (SOSSI) is a 501(c)3 nonprofit organization that transforms and improves the overall success of the youth, veterans, seniors, families, and communities. Our intergenerational approach creates an ecosystem focused on exposure, developing strategic partnerships between community, educators, industry professionals, nonprofits, and professionals committing services, time and resources to develop a STEM-ready workforce and access to opportunities."),
+              Text("Saving Our Sons & Sisters international (SOSSI) is a 501(c)3 nonprofit organization that transforms and improves the overall success of the youth, veterans, seniors, families, and communities. Our intergenerational approach creates an ecosystem focused on exposure, developing strategic partnerships between community, educators, industry professionals, nonprofits, and professionals committing services, time and resources to develop a STEM-ready workforce and access to opportunities."),
               Image.asset("assets/sossialpha.png")
-    ]))
+            ]))
     );
   }
 
 }
-
 

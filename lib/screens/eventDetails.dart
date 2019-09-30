@@ -73,6 +73,15 @@ class _EventDetailsState extends State<EventDetails> {
                   color: Colors.blue[600],
                   child:  Center(child: Text('Details: $description')),
                 ),),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed("/editEvent", arguments: widget.event);
+                },
+                child: Container(
+                  height: 50,
+                  color: Colors.blue[600],
+                  child:  Center(child: Text("Edit Event")),
+                ),),
             ]),
       ),
     );

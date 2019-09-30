@@ -16,8 +16,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController fullNameController = new TextEditingController();
 
   Widget build(BuildContext context) {
-    Scaffold s;
-    s = new Scaffold(
+    return Scaffold(
         backgroundColor: Colors.lightGreen[50],
         resizeToAvoidBottomPadding: false,
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
