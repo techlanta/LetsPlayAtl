@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:lets_play_atl/model/User.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
 import 'package:lets_play_atl/model/Event.dart';
+import 'package:intl/intl.dart';
 
 class CreateEventScreen extends StatefulWidget {
   Singleton singleton;
@@ -16,6 +18,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TextEditingController startTimeController = new TextEditingController();
   TextEditingController endTimeController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
+  String dateText = "Choose Date";
   @override
   Widget build(BuildContext context) {
 //    List<Event> events = widget.singleton.eventProvider.getAllEvents();
@@ -60,18 +63,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         borderSide: BorderSide(color: Colors.green))),
               ),
               SizedBox(height: 10.0),
-              TextField(
-                controller: dateController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'DATE',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green))),
-                obscureText: false,
+              FlatButton(
+                onPressed: () {
+                  DatePicker.showDatePicker(context, onConfirm: (date){
+                    setState(() {
+                      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+                      dateText = dateFormat.format(date);
+                    });
+                  });
+                },
+                  child: Text(dateText)
+
               ),
               SizedBox(height: 10.0),
               TextField(
