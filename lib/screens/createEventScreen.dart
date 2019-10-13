@@ -4,6 +4,7 @@ import 'package:lets_play_atl/model/User.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
 import 'package:lets_play_atl/model/Event.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 
 class CreateEventScreen extends StatefulWidget {
   Singleton singleton;
@@ -18,7 +19,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TextEditingController startTimeController = new TextEditingController();
   TextEditingController endTimeController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
+  TextEditingController locationController = new TextEditingController();
+  PlacesAutocompleteField placePicker;
+  bool isOngoing;
+  _CreateEventScreenState() {
+    this.isOngoing = false;
+    placePicker = PlacesAutocompleteField(apiKey: "AIzaSyALI1hjJwA0xHRO9b3CIFQLSc7UqfI75sc", hint: "EVENT LOCATION");
+  }
   String dateText = "Choose Date";
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now().add(Duration(hours:1));
+
+
   @override
   Widget build(BuildContext context) {
 //    List<Event> events = widget.singleton.eventProvider.getAllEvents();
@@ -63,61 +75,51 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         borderSide: BorderSide(color: Colors.green))),
               ),
               SizedBox(height: 10.0),
-              FlatButton(
-                onPressed: () {
-                  DatePicker.showDatePicker(context, onConfirm: (date){
-                    setState(() {
-                      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-                      dateText = dateFormat.format(date);
+              Visibility(
+                  visible: !isOngoing,
+                  child: FlatButton(
+                      onPressed: () {
+                        DatePicker.showDatePicker(context,
+                            currentTime: DateTime.now(), onConfirm: (date) {
+                          setState(() {
+                            DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+                            dateText = dateFormat.format(date);
+                          });
+                        });
+                      },
+                      child: Text("EVENT DATE: " + dateText))),
+              SizedBox(height: 10.0),
+              Row(children: [
+                Text("Is Event Ongoing?"),
+                Checkbox(
+                  value: isOngoing,
+                  onChanged: (newVal) {
+                    this.setState(() {
+                      isOngoing = newVal;
                     });
-                  });
-                },
-                  child: Text(dateText)
+                  },
+                ),
+              ]),
+              Timepicker((time) {
+                this.setState(() {
+                  startTime = time;
+                });
+              }, "PICK START TIME: " + DateFormat("hh:mm").format(startTime)),
+              SizedBox(height: 10.0),
+              Timepicker((time) {
+                this.setState(() {
+                  endTime = time;
+                });
+              }, "PICK END TIME: " + DateFormat("hh:mm").format(endTime)),
+              SizedBox(height: 10.0),
+              placePicker,
+              SizedBox(height: 10.0),
+              FlatButton(
+                onPressed: (){
 
+                },
+                child: Text("PICK SUSTAINABLE DEVELOPMENT GOALS"),
               ),
-              SizedBox(height: 10.0),
-              TextField(
-                controller: startTimeController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'START TIME',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green))),
-                obscureText: false,
-              ),
-              SizedBox(height: 10.0),
-              TextField(
-                controller: endTimeController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'END TIME',
-                    labelStyle: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green))),
-                obscureText: false,
-              ),
-              SizedBox(height: 10.0),
-//                  TextField(
-//                    controller: locationController,
-//                    decoration: InputDecoration(
-//                        border: OutlineInputBorder(),
-//                        labelText: 'LOCATION',
-//                        labelStyle: TextStyle(
-//                            fontFamily: 'Montserrat',
-//                            fontWeight: FontWeight.bold,
-//                            color: Colors.grey),
-//                        focusedBorder: UnderlineInputBorder(
-//                            borderSide: BorderSide(color: Colors.green))),
-//                    obscureText: false,
-//                  ),
-              SizedBox(height: 10.0),
               TextField(
                 controller: descriptionController,
                 keyboardType: TextInputType.multiline,
@@ -145,14 +147,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         .createEvent(e, currentUser.email, currentUser.password)
                         .then((res) {
                       if (res) {
-                        Navigator.of(context).pushNamedAndRemoveUntil('/eventDetails',
-                            ModalRoute.withName('/main'),
-                            arguments: Event(
-                                name: nameController.text,
-                                date: dateController.text,
-                                startTime: startTimeController.text,
-                                endTime: endTimeController.text,
-                                description: descriptionController.text), );
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/eventDetails',
+                          ModalRoute.withName('/main'),
+                          arguments: Event(
+                              name: nameController.text,
+                              date: dateController.text,
+
+                              startTime: startTime.toIso8601String(),
+                              endTime: endTime.toIso8601String(),
+                              latitude: placePicker.location.lat,
+                              longitude: placePicker.location.lng,
+                              description: descriptionController.text),
+                        );
                       } else {
                         AlertDialog(
                           title: Text("Event Creation Failed"),
@@ -219,4 +226,29 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
           )),
         ]));
   }
+}
+
+class Timepicker extends StatelessWidget {
+  Function onGetTime;
+  String buttonText;
+  Timepicker(this.onGetTime, this.buttonText);
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+        onPressed: () {
+          DatePicker.showTimePicker(context, onConfirm: (time) {
+            onGetTime(time);
+          });
+        },
+        child: Text(this.buttonText));
+  }
+}
+
+class LocationPicker extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+
 }
