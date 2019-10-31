@@ -9,6 +9,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  bool citizenVal = false;
+  bool organizerVal = false;
+
   Widget build(BuildContext context) {
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
@@ -74,14 +77,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 borderSide: BorderSide(color: Colors.green))),
                         obscureText: true,
                       ),
-                      SizedBox(height: 60.0),
+                      SizedBox(height: 10.0),
+                      CheckboxListTile(
+                        title: Text("REGISTER AS A CITIZEN", style: TextStyle(fontWeight: FontWeight.bold,
+                            fontFamily: 'Montserrat')),
+                        value: citizenVal,
+                        onChanged: (bool value) {
+                          setState(() {
+                            citizenVal = value;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 10.0),
+                      CheckboxListTile(
+                        title: Text("REGISTER AS AN EVENT ORGANIZER", style: TextStyle(fontWeight: FontWeight.bold,
+                            fontFamily: 'Montserrat')),
+                        value: organizerVal,
+                        onChanged: (bool value) {
+                          setState(() {
+                            organizerVal = value;
+                          });
+                        },
+                      ),
+                      SizedBox(height: 35.0),
                       Container(
                           height: 60.0,
                           child: GestureDetector(
                             onTap: () {
 //                              if (emailController.text == "jd@gmail.com" &&
 //                                  passwordController.text == "1234")
-                                Navigator.of(context).pushNamed('/login');
+                            if (organizerVal) {
+                              Navigator.of(context).pushNamed('/loginOrganizer');
+                            }
+
+                            if (citizenVal) {
+                              Navigator.of(context).pushNamed('/login');
+                            }
 
                             },
                             child: Material(
