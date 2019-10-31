@@ -11,6 +11,7 @@ abstract class CitizenProvider {
   Future<bool> login(String email, pass);
   User getCurrentUser();
   bool isLoggedIn(); // If a logged in user is currently stored in app
+  Future<bool> registerUser(User u);
 }
 
 class APICitizenProvider extends CitizenProvider {
@@ -40,7 +41,33 @@ class APICitizenProvider extends CitizenProvider {
         headers: header
     );
     Map<dynamic, dynamic> loginBody = jsonDecode(login.body);
+    if (loginBody["status"]) {
+      currentUser = User(loginBody["fullname"], email, pass);
+    }
     return loginBody["status"];
+  }
+
+  @override
+  Future<bool> registerUser(User u) async {
+    Map<String, String> body = {}, header = {};
+
+    body["password"] = u.password;
+    body["username"] = u.email;
+    body["fullname"] = u.name;
+
+    header["Content-Type"] = "application/json";
+
+    http.Response register = await http.post(apiBase + "/user",
+        body: json.encode(body),
+        headers: header
+    );
+    Map<dynamic, dynamic> registerBody = jsonDecode(register.body);
+    if (registerBody["status"] == "created") {
+      currentUser = u;
+    }
+
+    return registerBody["status"] == "created";
+
   }
 
 }
@@ -68,5 +95,11 @@ class MockCitizenProvider extends CitizenProvider {
       didLogIn = true;
     }
     return (didLogIn);
+  }
+
+  @override
+  Future<bool> registerUser(User u) {
+    // TODO: implement registerUser
+    return null;
   }
 }
