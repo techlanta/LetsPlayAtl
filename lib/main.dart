@@ -7,6 +7,7 @@ import 'package:lets_play_atl/screens/loginScreen.dart';
 import 'package:lets_play_atl/screens/eventList.dart';
 import 'package:lets_play_atl/screens/createEventScreen.dart';
 import 'package:lets_play_atl/screens/editEventScreen.dart';
+import 'package:lets_play_atl/screens/loginOrganizerScreen.dart';
 
 
 void main() => runApp(MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/main': (BuildContext context) => new AfterLoginScreen(singleton),
         '/createEvent': (BuildContext context) => new CreateEventScreen(singleton),
         '/editEvent': (BuildContext context) => new EventDetailsEditor(singleton),
+        '/loginOrganizer': (BuildContext context) => new LoginOrganizerScreen(singleton),
 
 
       },
@@ -82,7 +84,31 @@ class LoginSignup extends StatelessWidget {
                           },
                           child: Center(
                             child: Text(
-                              'LOG IN',
+                              'LOG IN AS A CITIZEN',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Montserrat'),
+                            ),
+                          ),
+                        ),
+                      )),
+                  SizedBox(height: 60.0),
+                  Container(
+                      height: 60.0,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(20.0),
+                        shadowColor: Colors.greenAccent,
+                        color: Colors.green,
+                        elevation: 7.0,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/loginOrganizer');
+                          },
+                          child: Center(
+                            child: Text(
+                              'LOG IN AS AN ORGANIZER',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25.0,

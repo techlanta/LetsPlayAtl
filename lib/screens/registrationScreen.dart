@@ -14,6 +14,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController fullNameController = new TextEditingController();
+  bool citizenVal = false;
+  bool organizerVal = false;
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +41,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ],
             ),
           ),
-          Container(
-              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-              child: Column(
+          Expanded(
+//              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+              child: ListView(
                 children: <Widget>[
                   TextField(
                     controller: fullNameController,
@@ -92,26 +94,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               .registerUser(u)
                               .then((res) {
                             Navigator.of(context).pop();
-
-//                            if (res) {
-//                              Navigator.of(context).pop();
-//                            } else {
-//                              showDialog(
-//                                  context: context,
-//                                  builder: (BuildContext context) {
-//                                    return AlertDialog(
-//                                      title:
-//                                          Text("User Creation Failed"),
-//                                      actions: <Widget>[
-//                                        FlatButton(
-//                                          child: Text("Ok"),
-//                                          onPressed: () {
-//                                            Navigator.of(context).pop();
-//                                          },
-//                                        ),
-//                                      ],
-//                                    );
-//                                  });
 //                            }
                           });
                         },
@@ -133,6 +115,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       )),
                   SizedBox(height: 20.0),
+                  SizedBox(height: 10.0),
+                  CheckboxListTile(
+                    title: Text("REGISTER AS A CITIZEN",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Montserrat')),
+                    value: citizenVal,
+                    onChanged: (bool value) {
+                      setState(() {
+                        citizenVal = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 10.0),
+                  CheckboxListTile(
+                    title: Text("REGISTER AS AN EVENT ORGANIZER",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Montserrat')),
+                    value: organizerVal,
+                    onChanged: (bool value) {
+                      setState(() {
+                        organizerVal = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 35.0),
+                  Container(
+                      height: 60.0,
+                      child: GestureDetector(onTap: () {
+//                              if (emailController.text == "jd@gmail.com" &&
+//                                  passwordController.text == "1234")
+                        if (organizerVal) {
+                          Navigator.of(context).pushNamed('/loginOrganizer');
+                        }
+
+                        if (citizenVal) {
+                          Navigator.of(context).pushNamed('/login');
+                        }
+                      })),
                   Container(
                     height: 40.0,
                     child: Container(

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
 
-//citizen login
-
-class LoginScreen extends StatefulWidget {
+class LoginOrganizerScreen extends StatefulWidget {
   Singleton singleton;
-  LoginScreen(this.singleton);
+  LoginOrganizerScreen(this.singleton);
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginOrganizerScreenState createState() => _LoginOrganizerScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginOrganizerScreenState extends State<LoginOrganizerScreen> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   @override
@@ -27,9 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 40.0),
                   decoration: new BoxDecoration(color: Colors.lightGreen[100]),
                   child: Text(
-                    "LOG IN AS A CITIZEN",
+                    "LOG IN AS AN EVENT ORGANIZER",
                     style:
-                        TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+                    TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
@@ -72,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onTap: () {
                         widget.singleton.citizenProvider
                             .login(
-                                emailController.text, passwordController.text)
+                            emailController.text, passwordController.text)
                             .then((res) {
                           if (res) {
                             Navigator.of(context).pushNamed('/main');
