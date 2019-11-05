@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
         resizeToAvoidBottomPadding: false,
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: <
+        body: ListView(children: <
             Widget>[
           Container(
             child: Stack(

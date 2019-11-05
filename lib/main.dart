@@ -9,7 +9,6 @@ import 'package:lets_play_atl/screens/createEventScreen.dart';
 import 'package:lets_play_atl/screens/editEventScreen.dart';
 import 'package:lets_play_atl/screens/loginOrganizerScreen.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -22,16 +21,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Let's Play ATL",
       routes: <String, WidgetBuilder>{
-        '/register': (BuildContext context) => new RegistrationScreen(singleton),
+        '/register': (BuildContext context) =>
+            new RegistrationScreen(singleton),
         '/login': (BuildContext context) => new LoginScreen(singleton),
         '/events': (BuildContext context) => new EventList(singleton),
         '/eventDetails': (BuildContext context) => new EventDetails(),
         '/main': (BuildContext context) => new AfterLoginScreen(singleton),
-        '/createEvent': (BuildContext context) => new CreateEventScreen(singleton),
-        '/editEvent': (BuildContext context) => new EventDetailsEditor(singleton),
-        '/loginOrganizer': (BuildContext context) => new LoginOrganizerScreen(singleton),
-
-
+        '/createEvent': (BuildContext context) =>
+            new CreateEventScreen(singleton),
+        '/editEvent': (BuildContext context) =>
+            new EventDetailsEditor(singleton),
+        '/loginOrganizer': (BuildContext context) =>
+            new LoginOrganizerScreen(singleton),
       },
       theme: ThemeData(
         primarySwatch: Colors.green,
@@ -41,23 +42,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class LoginSignup extends StatelessWidget {
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+    return Expanded(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
           Container(
             child: Stack(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                  decoration:
-                  new BoxDecoration(color: Colors.lightGreen[100]),
+                  decoration: new BoxDecoration(color: Colors.lightGreen[100]),
                   child: Text(
                     "WELCOME TO LET'S PLAY ATL",
-                    style: TextStyle(
-                        fontSize: 48.0, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
@@ -66,88 +66,90 @@ class LoginSignup extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 60.0),
-                  Container(
-                      height: 60.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
-                        elevation: 7.0,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/login');
-                          },
-                          child: Center(
-                            child: Text(
-                              'LOG IN AS A CITIZEN',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat'),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+                  child: ListView(
+                    children: <Widget>[
+                      SizedBox(height: 60.0),
+                      Container(
+                          height: 60.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            shadowColor: Colors.greenAccent,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/login');
+                              },
+                              child: Center(
+                                child: Text(
+                                  'LOG IN AS A CITIZEN',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat'),
+                                ),
+                              ),
+                            ),
+                          )),
+                      SizedBox(height: 60.0),
+                      Container(
+                          height: 60.0,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            shadowColor: Colors.greenAccent,
+                            color: Colors.green,
+                            elevation: 7.0,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed('/loginOrganizer');
+                              },
+                              child: Center(
+                                child: Text(
+                                  'LOG IN AS AN ORGANIZER',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat'),
+                                ),
+                              ),
+                            ),
+                          )),
+                      SizedBox(height: 60.0),
+                      Container(
+                        height: 60.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 40.0,
+                                    spreadRadius: .5)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20.0)),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/register');
+                            },
+                            child: Center(
+                              child: Text('SIGN UP',
+                                  style: TextStyle(
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat')),
                             ),
                           ),
-                        ),
-                      )),
-                  SizedBox(height: 60.0),
-                  Container(
-                      height: 60.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
-                        elevation: 7.0,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/loginOrganizer');
-                          },
-                          child: Center(
-                            child: Text(
-                              'LOG IN AS AN ORGANIZER',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat'),
-                            ),
-                          ),
-                        ),
-                      )),
-                  SizedBox(height: 60.0),
-                  Container(
-                    height: 60.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 40.0,
-                                spreadRadius: .5)
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.0)),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed('/register');
-                        },
-                        child: Center(
-                          child: Text('SIGN UP',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Montserrat')),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              )),
-        ]);
+                    ],
+                  ))),
+        ]));
   }
 }
 
@@ -221,13 +223,10 @@ class SOSSIInfo extends StatelessWidget {
     return Center(
         child: Padding(
             padding: EdgeInsets.all(20),
-            child:
-            Column(children:[
-              Text("Saving Our Sons & Sisters international (SOSSI) is a 501(c)3 nonprofit organization that transforms and improves the overall success of the youth, veterans, seniors, families, and communities. Our intergenerational approach creates an ecosystem focused on exposure, developing strategic partnerships between community, educators, industry professionals, nonprofits, and professionals committing services, time and resources to develop a STEM-ready workforce and access to opportunities."),
+            child: Column(children: [
+              Text(
+                  "Saving Our Sons & Sisters international (SOSSI) is a 501(c)3 nonprofit organization that transforms and improves the overall success of the youth, veterans, seniors, families, and communities. Our intergenerational approach creates an ecosystem focused on exposure, developing strategic partnerships between community, educators, industry professionals, nonprofits, and professionals committing services, time and resources to develop a STEM-ready workforce and access to opportunities."),
               Image.asset("assets/sossialpha.png")
-            ]))
-    );
+            ])));
   }
-
 }
-
