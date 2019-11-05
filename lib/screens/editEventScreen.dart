@@ -147,8 +147,7 @@ class _EventDetailsEditorState extends State<EventDetailsEditor> {
                         e.description = descriptionController.text;
                        widget.singleton.eventProvider.updateEvent(e, u.email, u.password);
                         Navigator.of(context).pushNamed('/eventDetails',
-                            arguments: Event(name: nameController.text, date: dateController.text, startTime: startTimeController.text,
-                                endTime: endTimeController.text, description: descriptionController.text));
+                            arguments: Event(name: nameController.text, date: dateController.text, description: descriptionController.text));
                       },
                       child: Container(
                           height: 60.0,

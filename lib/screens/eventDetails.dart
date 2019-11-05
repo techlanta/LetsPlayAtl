@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lets_play_atl/model/Event.dart';
+import 'package:date_utils/date_utils.dart';
+import 'package:intl/intl.dart';
+
 
 class EventDetails extends StatefulWidget {
   Event event;
@@ -22,8 +25,14 @@ class _EventDetailsState extends State<EventDetails> {
 //    } else {
 //      date = "ONGOING!";
 //    }
-    String startTime = event.startTime;
-    String endTime = event.endTime;
+
+    String startTime = "Not set", endTime = "Not set";
+    print(event.dateStart);
+
+    if (event.dateStart != null && event.dateEnd != null) {
+      startTime = DateFormat("MM-dd-yy, hh:mm").format(event.dateStart);
+      endTime = DateFormat("MM-dd-yy, hh:mm").format(event.dateEnd);
+    }
     String description = event.description;
 
     return new Scaffold(

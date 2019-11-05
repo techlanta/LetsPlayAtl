@@ -24,7 +24,8 @@ class APIEventProvider extends EventProvider {
     List<dynamic> eventsBody = jsonDecode(eventResp.body);
     List<Event> toReturn  = [];
     for (dynamic rawEvent in eventsBody) {
-      Event parsedEvent = Event(name: rawEvent["name"], eventID: rawEvent["id"].toString());
+      Event parsedEvent = Event();
+      parsedEvent.jsonParse(rawEvent);
       toReturn.add(parsedEvent);
     }
     return toReturn;
@@ -32,10 +33,9 @@ class APIEventProvider extends EventProvider {
 
   @override
   Future<bool> createEvent(Event e, String username, password) async {
-    Map<String, String> body = {}, header = {};
+    Map<String, String> header = {};
+    Map<String, dynamic> body = e.toJsonDict();
 
-    body["name"] = e.name;
-    body["description"] = e.description;
 
 
     String basicAuth =
@@ -55,11 +55,8 @@ class APIEventProvider extends EventProvider {
 
   @override
   Future<bool> updateEvent(Event e, String username, password) async {
-    Map<String, String> body = {}, header = {};
-
-    body["name"] = e.name;
-    body["description"] = e.description;
-    body["id"] = e.eventID;
+    Map<String, String> header = {};
+    Map<String, dynamic> body = e.toJsonDict();
 
 
     String basicAuth =
@@ -83,8 +80,7 @@ class MockEventProvider extends EventProvider {
   @override
   Future<List<Event>> getAllEvents() async {
     return [
-      Event(name: "Momo's Community PotLuck", date: "09/30/2019", description: "Enjoy delicious food!", latitude: 10, longitude: 20,
-        startTime: '4:00 PM', endTime: '7:00 PM',)
+      Event(name: "Momo's Community PotLuck", date: "09/30/2019", description: "Enjoy delicious food!", latitude: 10, longitude: 20)
     ];
   }
 

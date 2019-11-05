@@ -75,42 +75,42 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         borderSide: BorderSide(color: Colors.green))),
               ),
               SizedBox(height: 10.0),
-              Visibility(
-                  visible: !isOngoing,
-                  child: FlatButton(
-                      onPressed: () {
-                        DatePicker.showDatePicker(context,
-                            currentTime: DateTime.now(), onConfirm: (date) {
-                          setState(() {
-                            DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-                            dateText = dateFormat.format(date);
-                          });
-                        });
-                      },
-                      child: Text("EVENT DATE: " + dateText))),
-              SizedBox(height: 10.0),
-              Row(children: [
-                Text("Is Event Ongoing?"),
-                Checkbox(
-                  value: isOngoing,
-                  onChanged: (newVal) {
-                    this.setState(() {
-                      isOngoing = newVal;
-                    });
-                  },
-                ),
-              ]),
+//              Visibility(
+//                  visible: !isOngoing,
+//                  child: FlatButton(
+//                      onPressed: () {
+//                        DatePicker.showDateTimePicker(context,
+//                            currentTime: DateTime.now(), onConfirm: (date) {
+//                          setState(() {
+//                            DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+//                            dateText = dateFormat.format(date);
+//                          });
+//                        });
+//                      },
+//                      child: Text("EVENT DATE: " + dateText))),
+//              SizedBox(height: 10.0),
+//              Row(children: [
+//                Text("Is Event Ongoing?"),
+//                Checkbox(
+//                  value: isOngoing,
+//                  onChanged: (newVal) {
+//                    this.setState(() {
+//                      isOngoing = newVal;
+//                    });
+//                  },
+//                ),
+//              ]),
               Timepicker((time) {
                 this.setState(() {
                   startTime = time;
                 });
-              }, "PICK START TIME: " + DateFormat("hh:mm").format(startTime)),
+              }, "PICK START TIME: " + DateFormat("MM-dd-yy, hh:mm").format(startTime)),
               SizedBox(height: 10.0),
               Timepicker((time) {
                 this.setState(() {
                   endTime = time;
                 });
-              }, "PICK END TIME: " + DateFormat("hh:mm").format(endTime)),
+              }, "PICK END TIME: " + DateFormat("MM-dd-yy, hh:mm").format(endTime)),
               SizedBox(height: 10.0),
               placePicker,
               SizedBox(height: 10.0),
@@ -142,7 +142,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         widget.singleton.citizenProvider.getCurrentUser();
                     Event e = Event(
                         name: nameController.text,
-                        description: descriptionController.text);
+                        description: descriptionController.text,
+                        dateStart: startTime,
+                        dateEnd: endTime,
+                    );
                     widget.singleton.eventProvider
                         .createEvent(e, currentUser.email, currentUser.password)
                         .then((res) {
@@ -150,16 +153,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         Navigator.of(context).pushNamedAndRemoveUntil(
                           '/eventDetails',
                           ModalRoute.withName('/main'),
-                          arguments: Event(
-                              name: nameController.text,
-                              date: dateController.text,
-
-                              startTime: startTime.toIso8601String(),
-                              endTime: endTime.toIso8601String(),
-                              latitude: placePicker.location.lat,
-                              longitude: placePicker.location.lng,
-                              description: descriptionController.text),
-                        );
+                          arguments: e);
                       } else {
                         AlertDialog(
                           title: Text("Event Creation Failed"),
@@ -236,7 +230,7 @@ class Timepicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
         onPressed: () {
-          DatePicker.showTimePicker(context, onConfirm: (time) {
+          DatePicker.showDateTimePicker(context, onConfirm: (time) {
             onGetTime(time);
           });
         },
