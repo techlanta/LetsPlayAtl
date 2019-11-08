@@ -52,23 +52,23 @@ class LoginSignup extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(15.0, 30.0, 0.0, 0.0),
                   decoration: new BoxDecoration(color: Colors.lightGreen[100]),
                   child: Text(
                     "WELCOME TO LET'S PLAY ATL",
                     style:
-                        TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 45.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(50.0, 50.0, 0.0, 0.0),
                 )
               ],
             ),
           ),
           Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+                  padding: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0),
                   child: ListView(
                     children: <Widget>[
                       SizedBox(height: 60.0),
