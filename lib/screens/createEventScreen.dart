@@ -14,6 +14,8 @@ class CreateEventScreen extends StatefulWidget {
 }
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
+  bool _validateName = false;
+  bool _validateDescription = false;
   TextEditingController nameController = new TextEditingController();
   TextEditingController dateController = new TextEditingController();
   TextEditingController startTimeController = new TextEditingController();
@@ -72,7 +74,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green))),
+                        borderSide: BorderSide(color: Colors.green)),
+                  errorText: _validateName ? 'Value Can\'t Be Empty': null),
               ),
               SizedBox(height: 10.0),
 //              Visibility(
@@ -132,13 +135,19 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         fontWeight: FontWeight.bold,
                         color: Colors.grey),
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green))),
+                        borderSide: BorderSide(color: Colors.green)),
+                  errorText: _validateDescription ? 'Value Can\'t Be Empty': null),
                 obscureText: false,
               ),
               SizedBox(height: 10.0),
               GestureDetector(
                   onTap: () {
-                    User currentUser =
+                    setState(() {
+                      nameController.text.isEmpty ? _validateName = true : _validateName = false;
+                      descriptionController.text.isEmpty ? _validateDescription = true : _validateDescription = false;
+                    });
+                    if ((_validateName == false) && (_validateDescription == false)) {
+                        User currentUser =
                         widget.singleton.citizenProvider.getCurrentUser();
                     Event e = Event(
                         name: nameController.text,
@@ -149,25 +158,44 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     widget.singleton.eventProvider
                         .createEvent(e, currentUser.email, currentUser.password)
                         .then((res) {
-                      if (res) {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/eventDetails',
-                          ModalRoute.withName('/main'),
-                          arguments: e);
-                      } else {
-                        AlertDialog(
-                          title: Text("Event Creation Failed"),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text("Ok"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
+                          if (res) {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/eventDetails',
+                                ModalRoute.withName('/main'),
+                                arguments: e);
+                          } else {
+                            AlertDialog(
+                              title: Text("Event Creation Failed"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("Ok"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                        });
+                    }
+                    else {
+                        showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                        return AlertDialog(
+                        title: Text("Invalid input"),
+                        actions: <Widget>[
+                        FlatButton(
+                        child: Text("Ok"),
+                        onPressed: () {
+                        Navigator.of(context).pop();
+                        },
+                        ),
+                        ],
                         );
-                      }
-                    });
+
+                        });
+                        };
 //                        MaterialPageRoute(
 ////                        builder: (context) => eventDetails(name: nameController,));
                   },
