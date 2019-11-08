@@ -14,6 +14,8 @@ class EventDetailsEditor extends StatefulWidget {
 
 class _EventDetailsEditorState extends State<EventDetailsEditor> {
   Event e;
+  bool _validateName = false;
+  bool _validateDescription = false;
   TextEditingController nameController = new TextEditingController();
   TextEditingController dateController = new TextEditingController();
   TextEditingController startTimeController = new TextEditingController();
@@ -65,7 +67,8 @@ class _EventDetailsEditorState extends State<EventDetailsEditor> {
                             fontWeight: FontWeight.bold,
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))),
+                            borderSide: BorderSide(color: Colors.green)),
+                        errorText: _validateName ? 'Value Can\'t Be Empty': null),
                   ),
                   SizedBox(height: 10.0),
                   TextField(
@@ -80,6 +83,7 @@ class _EventDetailsEditorState extends State<EventDetailsEditor> {
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.green))),
                     obscureText: false,
+
                   ),
                   SizedBox(height: 10.0),
                   TextField(
@@ -136,18 +140,45 @@ class _EventDetailsEditorState extends State<EventDetailsEditor> {
                             fontWeight: FontWeight.bold,
                             color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green))),
+                            borderSide: BorderSide(color: Colors.green)),
+                      errorText: _validateDescription ? 'Value Can\'t Be Empty': null,),
                     obscureText: false,
                   ),
                   SizedBox(height: 10.0),
                   GestureDetector(
                       onTap: () {
-                        User u = widget.singleton.citizenProvider.getCurrentUser();
-                        e.name = nameController.text;
-                        e.description = descriptionController.text;
-                       widget.singleton.eventProvider.updateEvent(e, u.email, u.password);
-                        Navigator.of(context).pushNamed('/eventDetails',
-                            arguments: Event(name: nameController.text, date: dateController.text, description: descriptionController.text));
+                        setState(() {
+                          nameController.text.isEmpty ? _validateName = true : _validateName = false;
+                          descriptionController.text.isEmpty ? _validateDescription = true : _validateDescription = false;
+                        });
+                        if ((_validateName == false) && (_validateDescription == false)) {
+                          User u = widget.singleton.citizenProvider
+                              .getCurrentUser();
+                          e.name = nameController.text;
+                          e.description = descriptionController.text;
+                          widget.singleton.eventProvider.updateEvent(
+                              e, u.email, u.password);
+                          Navigator.of(context).pushNamed('/eventDetails',
+                              arguments: Event(name: nameController.text,
+                                  date: dateController.text,
+                                  description: descriptionController.text));
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                   title: Text("Invalid input"),
+                                  actions: <Widget>[
+                                   FlatButton(
+                                    child: Text("Ok"),
+                                     onPressed: () {
+                              Navigator.of(context).pop();
+                              },
+                      ),
+                      ],
+                      );
+                      });
+                      };
                       },
                       child: Container(
                           height: 60.0,
