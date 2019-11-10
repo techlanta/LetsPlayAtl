@@ -9,7 +9,6 @@ class EventDetails extends StatefulWidget {
   EventDetails({this.event});
   @override
   _EventDetailsState createState() => _EventDetailsState(event);
-
 }
 
 class _EventDetailsState extends State<EventDetails> {
