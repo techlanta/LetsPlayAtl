@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:lets_play_atl/model/User.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
 import 'package:lets_play_atl/model/Event.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-
+import 'package:location/location.dart' as GPSLocation;
+import 'findLocations.dart';
 class CreateEventScreen extends StatefulWidget {
   Singleton singleton;
   CreateEventScreen(this.singleton);
@@ -22,11 +26,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TextEditingController endTimeController = new TextEditingController();
   TextEditingController descriptionController = new TextEditingController();
   TextEditingController locationController = new TextEditingController();
-  PlacesAutocompleteField placePicker;
+  PlacesAutocompleteFieldV2 placePicker;
+  String eventHintText;
+  String apiKey = "AIzaSyALI1hjJwA0xHRO9b3CIFQLSc7UqfI75sc";
   bool isOngoing;
+  LatLng location = LatLng(0,0);
   _CreateEventScreenState() {
+    eventHintText = "Choose a location!";
     this.isOngoing = false;
-    placePicker = PlacesAutocompleteField(apiKey: "AIzaSyALI1hjJwA0xHRO9b3CIFQLSc7UqfI75sc", hint: "EVENT LOCATION");
+    GPSLocation.Location gpsLocation = new GPSLocation.Location();
+    gpsLocation.getLocation().then((locationData) {
+      this.setState(() {
+        this.location = LatLng(locationData.latitude, locationData.longitude);
+        this.eventHintText = "My Current Location (Tap to Change!)";
+      });
+    });
+
+
   }
   String dateText = "Choose Date";
   DateTime startTime = DateTime.now();
@@ -36,6 +52,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
 //    List<Event> events = widget.singleton.eventProvider.getAllEvents();
+    placePicker = PlacesAutocompleteFieldV2(apiKey: apiKey, hint: eventHintText, onChanged:
+        (p){
+      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey:apiKey);
+      _places.getDetailsByPlaceId(p.id).then((details) {
+        this.setState((){
+          location = new LatLng(details.result.geometry.location.lat, details.result.geometry.location.lng);
+          print(details);
+        });
+      });
+    },
+    );
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
         resizeToAvoidBottomPadding: false,
@@ -155,6 +182,10 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         dateStart: startTime,
                         dateEnd: endTime,
                     );
+                    if (location.longitude != 0 || location.latitude != 0) {
+                      e.longitude = location.longitude;
+                      e.latitude = location.latitude;
+                    }
                     widget.singleton.eventProvider
                         .createEvent(e, currentUser.email, currentUser.password)
                         .then((res) {

@@ -4,24 +4,75 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lets_play_atl/model/Event.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
+import 'package:location/location.dart';
 
 
 class MapScreen extends StatefulWidget {
   Singleton singleton;
+  Location location = new Location();
+
   MapScreen(this.singleton);
   @override
-  State<MapScreen> createState() => MapScreenState();
+  State<MapScreen> createState() => MapScreenState(LatLng(33.7766829, -84.389561));
 }
 
 class MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
+  LatLng latLng;
+  List<Marker> markers;
+  MapScreenState(this.latLng) {
+    Location location = new Location();
+    events = [];
+    markers = [];
+    location.getLocation().then((locationData){
+      this.setState((){
+        latLng = LatLng(locationData.latitude, locationData.longitude);
+        widget.singleton.eventProvider.getAllEventsNearLocation(latLng).then((newEvents) {
+          this.setState(() {
+            events = newEvents;
+            for (int i = 0; i < events.length; i++) {
+              Event e = events[i];
+              print(e.toJsonDict());
+              if (e.latitude == null || e.longitude == null) {
+                continue;
+              }
+              markers.add(Marker(
+                  markerId: MarkerId(i.toString()),
+                  position: LatLng(e.latitude, e.longitude),
+                  infoWindow: InfoWindow(
+                      title: e.name,
+                      snippet: e.description,
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, '/eventDetails', arguments: e);
+                      }
+                  )
+              ));
+            }
+        });
 
-  static final CameraPosition _techSquare = CameraPosition(
-    target: LatLng(33.7766829, -84.389561),
-    zoom: 14.4746,
-  );
+        });
 
-  static final CameraPosition _kLake = CameraPosition(
+      });
+
+
+
+      _controller.future.then((controller){
+        controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: latLng,
+          zoom: 14.4746
+        )));
+      });
+
+
+    });
+  }
+  List<Event> events;
+
+
+
+
+  static final CameraPosition _nearestEvent = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(33.7766829, -84.389561),
       tilt: 59.440717697143555,
@@ -29,27 +80,33 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Event e = Event(name: "Waffle House Charity Run", description: "Run to Waffle House for ATL Charity", latitude: 33.7766829, longitude: -84.389561);
-    List<Event> events = [e];
-    List<Marker> markers = [];
+    CameraPosition _currentLocation = CameraPosition(
+      target: latLng,
+      zoom: 5,
+    );
     for (int i = 0; i < events.length; i++) {
       Event e = events[i];
-      markers.add(Marker(
-        markerId: MarkerId(i.toString()),
-        position: LatLng(e.latitude, e.longitude),
-        infoWindow: InfoWindow(
-          title: e.name,
-          snippet: e.description,
-          onTap: () {
-            Navigator.pushNamed(context, '/eventDetails', arguments: e);
-          }
-        )
-      ));
+      print(e.toJsonDict());
+      if (e.longitude == null || e.latitude == null) {
+        continue;
+      } else {
+        markers.add(Marker(
+            markerId: MarkerId(i.toString()),
+            position: LatLng(e.latitude, e.longitude),
+            infoWindow: InfoWindow(
+                title: e.name,
+                snippet: e.description,
+                onTap: () {
+                  Navigator.pushNamed(context, '/eventDetails', arguments: e);
+                }
+            )
+        ));
+      }
     }
     return new Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: _techSquare,
+        initialCameraPosition: _currentLocation,
         markers: Set.from(markers),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
@@ -65,6 +122,6 @@ class MapScreenState extends State<MapScreen> {
 
   Future<void> _goToNearestEvent() async {
     final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    controller.animateCamera(CameraUpdate.newCameraPosition(_nearestEvent));
   }
 }

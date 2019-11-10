@@ -1,5 +1,7 @@
 //looked at Event.java from demo
 
+import 'dart:convert';
+
 import 'package:date_utils/date_utils.dart';
 
 class Event {
@@ -41,17 +43,21 @@ class Event {
     if (this.dateEnd != null) {
       jsonDict["endDate"] = this.dateEnd.toIso8601String();
     }
+    jsonDict["latitude"] = this.latitude;
+    jsonDict["longitude"] = this.longitude;
     return jsonDict;
   }
 
   void jsonParse(Map<String, dynamic> rawData) {
     name = rawData["name"];
     eventID = rawData["id"].toString();
-    print(rawData);
     if (rawData["startDate"] != null && rawData["startDate"] != null) {
       dateStart = DateTime.parse(rawData["startDate"]);
       dateEnd = DateTime.parse(rawData["endDate"]);
     }
+    latitude = rawData["latitude"];
+    longitude = rawData["longitude"];
+
   }
 
 
