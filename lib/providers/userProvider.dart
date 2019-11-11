@@ -9,6 +9,7 @@ abstract class EventOrganizerProvider {
 
 abstract class CitizenProvider {
   Future<bool> login(String email, pass);
+  Future<bool> loginAsEventOrganizer(String email, pass);
   User getCurrentUser();
   bool isLoggedIn(); // If a logged in user is currently stored in app
   Future<bool> registerUser(User u);
@@ -49,11 +50,13 @@ class APICitizenProvider extends CitizenProvider {
 
   @override
   Future<bool> registerUser(User u) async {
-    Map<String, String> body = {}, header = {};
+    Map<String, dynamic> body = {};
+    Map<String, String> header = {};
 
     body["password"] = u.password;
     body["username"] = u.email;
     body["fullname"] = u.name;
+    body["is_admin"] = u.isAdmin;
 
     header["Content-Type"] = "application/json";
 
@@ -70,36 +73,57 @@ class APICitizenProvider extends CitizenProvider {
 
   }
 
-}
+  @override
+  Future<bool> loginAsEventOrganizer(String email, pass) async {
+    Map<String, String> body = {}, header = {};
 
-class MockCitizenProvider extends CitizenProvider {
-  User fakeUser = User("Jane", "jd@gmail.com", "1234");
-  bool didLogIn;
-  MockCitizenProvider() {
-    didLogIn = false;
-  }
-  bool isLoggedIn() {
-    return didLogIn;
-  }
-  @override
-  User getCurrentUser() {
-    if (didLogIn) {
-      return fakeUser;
-    } else {
-      return null;
+    body["password"] = pass;
+    body["username"] = email;
+
+    header["Content-Type"] = "application/json";
+
+    http.Response login = await http.post(apiBase + "/check_password",
+        body: json.encode(body),
+        headers: header
+    );
+    Map<dynamic, dynamic> loginBody = jsonDecode(login.body);
+    if (loginBody["status"] && loginBody["is_admin"]) {
+      currentUser = User(loginBody["fullname"], email, pass);
     }
-  }
-  @override
-  Future<bool> login(String email, pass) async {
-    if (fakeUser.email == email && fakeUser.password == pass) {
-      didLogIn = true;
-    }
-    return (didLogIn);
+    currentUser.isAdmin = true;
+    return loginBody["status"] && loginBody["is_admin"];
   }
 
-  @override
-  Future<bool> registerUser(User u) {
-    // TODO: implement registerUser
-    return null;
-  }
 }
+
+//class MockCitizenProvider extends CitizenProvider {
+//  User fakeUser = User("Jane", "jd@gmail.com", "1234");
+//  bool didLogIn;
+//  MockCitizenProvider() {
+//    didLogIn = false;
+//  }
+//  bool isLoggedIn() {
+//    return didLogIn;
+//  }
+//  @override
+//  User getCurrentUser() {
+//    if (didLogIn) {
+//      return fakeUser;
+//    } else {
+//      return null;
+//    }
+//  }
+//  @override
+//  Future<bool> login(String email, pass) async {
+//    if (fakeUser.email == email && fakeUser.password == pass) {
+//      didLogIn = true;
+//    }
+//    return (didLogIn);
+//  }
+//
+//  @override
+//  Future<bool> registerUser(User u) {
+//    // TODO: implement registerUser
+//    return null;
+//  }
+//}

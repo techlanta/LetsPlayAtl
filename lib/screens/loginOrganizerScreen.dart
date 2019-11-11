@@ -69,11 +69,26 @@ class _LoginOrganizerScreenState extends State<LoginOrganizerScreen> {
                   GestureDetector(
                       onTap: () {
                         widget.singleton.citizenProvider
-                            .login(
+                            .loginAsEventOrganizer(
                             emailController.text, passwordController.text)
                             .then((res) {
                           if (res) {
                             Navigator.of(context).pushNamed('/main');
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Login as Event Organizer Successful"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
                           } else {
                             showDialog(
                                 context: context,

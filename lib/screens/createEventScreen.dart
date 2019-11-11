@@ -105,31 +105,6 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   errorText: _validateName ? 'Value Can\'t Be Empty': null),
               ),
               SizedBox(height: 10.0),
-//              Visibility(
-//                  visible: !isOngoing,
-//                  child: FlatButton(
-//                      onPressed: () {
-//                        DatePicker.showDateTimePicker(context,
-//                            currentTime: DateTime.now(), onConfirm: (date) {
-//                          setState(() {
-//                            DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-//                            dateText = dateFormat.format(date);
-//                          });
-//                        });
-//                      },
-//                      child: Text("EVENT DATE: " + dateText))),
-//              SizedBox(height: 10.0),
-//              Row(children: [
-//                Text("Is Event Ongoing?"),
-//                Checkbox(
-//                  value: isOngoing,
-//                  onChanged: (newVal) {
-//                    this.setState(() {
-//                      isOngoing = newVal;
-//                    });
-//                  },
-//                ),
-//              ]),
               Timepicker((time) {
                 this.setState(() {
                   startTime = time;

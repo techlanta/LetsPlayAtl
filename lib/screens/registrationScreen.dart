@@ -21,29 +21,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
         backgroundColor: Colors.lightGreen[50],
         resizeToAvoidBottomPadding: false,
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
-            Widget>[
-          Container(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
-                  decoration: new BoxDecoration(color: Colors.lightGreen[100]),
-                  child: Text(
-                    "Sign Up For Let's Play ATL",
-                    style:
-                        TextStyle(fontSize: 48.0, fontWeight: FontWeight.bold),
-                  ),
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 0.0, 0.0),
+                      decoration:
+                          new BoxDecoration(color: Colors.lightGreen[100]),
+                      child: Text(
+                        "Sign Up For Let's Play ATL",
+                        style: TextStyle(
+                            fontSize: 48.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
+                    )
+                  ],
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(260.0, 125.0, 0.0, 0.0),
-                )
-              ],
-            ),
-          ),
-          Expanded(
+              ),
+              Expanded(
 //              padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-              child: ListView(
+                  child: ListView(
                 children: <Widget>[
                   TextField(
                     controller: fullNameController,
@@ -90,10 +92,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 //                                  passwordController.text == "1234")
                           User u = User(fullNameController.text,
                               emailController.text, passwordController.text);
+                          u.isAdmin = organizerVal;
                           widget.singleton.citizenProvider
                               .registerUser(u)
                               .then((res) {
-                            Navigator.of(context).pop();
+                            if (res) {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Signup Complete"),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text("Ok"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            Navigator.of(context).pop();
+
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Signup Failed"),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text("Ok"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }
 //                            }
                           });
                         },
@@ -115,20 +152,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       )),
                   SizedBox(height: 20.0),
-                  SizedBox(height: 10.0),
-                  CheckboxListTile(
-                    title: Text("REGISTER AS A CITIZEN",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Montserrat')),
-                    value: citizenVal,
-                    onChanged: (bool value) {
-                      setState(() {
-                        citizenVal = value;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 10.0),
                   CheckboxListTile(
                     title: Text("REGISTER AS AN EVENT ORGANIZER",
                         style: TextStyle(
@@ -141,7 +164,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       });
                     },
                   ),
-                  SizedBox(height: 35.0),
+                  SizedBox(height: 25.0),
                   Container(
                       height: 60.0,
                       child: GestureDetector(onTap: () {
@@ -183,6 +206,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                 ],
               )),
-        ]));
+            ]));
   }
 }
