@@ -1,9 +1,12 @@
+import 'package:lets_play_atl/providers/sdgProvider.dart';
+
 import 'userProvider.dart';
 import 'eventProvider.dart';
 
 abstract class Singleton {
   CitizenProvider get citizenProvider;
   EventProvider get eventProvider;
+  SDGProvider get sdgProvider;
 }
 
 class ImplementedSingleton implements Singleton {
@@ -21,4 +24,6 @@ class ImplementedSingleton implements Singleton {
   @override
   // TODO: implement eventProvider
   get eventProvider => APIEventProvider();
+
+  get sdgProvider => SDGProvider();
 }

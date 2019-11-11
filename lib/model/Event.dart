@@ -3,12 +3,16 @@
 import 'dart:convert';
 
 import 'package:date_utils/date_utils.dart';
+import 'package:lets_play_atl/model/SDG.dart';
 
 class Event {
 
-  Event({this.name, this.description, this.date, this.latitude, this.longitude, this.dateStart, this.dateEnd, this.eventID, this.isOngoing});
+  Event({this.name, this.description, this.date, this.latitude, this.longitude, this.dateStart, this.dateEnd, this.eventID, this.isOngoing}) {
+    sdgs = [];
+    RSVP = false;
+  }
 
-  bool RSVP = false;
+  bool RSVP;
 
   DateTime dateStart;
   DateTime dateEnd;
@@ -17,6 +21,7 @@ class Event {
   double latitude;
   double longitude;
   String eventID;
+  List<SDG> sdgs;
 //  String startTime; //string for now, but should be datetime
 //  String endTime; //string for now, but should be datetime
   String date; //string for now, but should be datetime
