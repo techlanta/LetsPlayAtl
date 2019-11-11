@@ -72,6 +72,13 @@ class Event {
     latitude = rawData["latitude"];
     longitude = rawData["longitude"];
     description = rawData["description"];
+    tags = [];
+    if (rawData.containsKey("tags")) {
+      for (int i = 0; i < rawData["tags"].length; i++) {
+       tags.add(rawData["tags"][i].toString());
+      }
+    }
+//    if (rawData.containsKey(""))
   }
 
 

@@ -114,20 +114,6 @@ class _EventDetailsEditorState extends State<EventDetailsEditor> {
                     obscureText: false,
                   ),
                   SizedBox(height: 10.0),
-                  //                  TextField(
-                  //                    controller: locationController,
-                  //                    decoration: InputDecoration(
-                  //                        border: OutlineInputBorder(),
-                  //                        labelText: 'LOCATION',
-                  //                        labelStyle: TextStyle(
-                  //                            fontFamily: 'Montserrat',
-                  //                            fontWeight: FontWeight.bold,
-                  //                            color: Colors.grey),
-                  //                        focusedBorder: UnderlineInputBorder(
-                  //                            borderSide: BorderSide(color: Colors.green))),
-                  //                    obscureText: false,
-                  //                  ),
-                  SizedBox(height: 10.0),
                   TextField(
                     controller: descriptionController,
                     keyboardType: TextInputType.multiline,

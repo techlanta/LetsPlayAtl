@@ -4,8 +4,14 @@ import 'package:lets_play_atl/model/SDG.dart';
 
 class SDGProvider {
   static const apiBase = "http://ec2-13-58-237-110.us-east-2.compute.amazonaws.com:5000";
-
+  static List<SDG> cachedSDG = [];
+  SDGProvider() {
+    getAllSDG();
+  }
   Future<List<SDG>> getAllSDG() async {
+    if ((cachedSDG.length) != 0) {
+      return cachedSDG;
+    }
     Map<String, String> header = {};
 
     header["Content-Type"] = "application/json";
@@ -20,6 +26,7 @@ class SDGProvider {
       parsedSDG.parseRawJson(rawSDG);
       toReturn.add(parsedSDG);
     }
+    cachedSDG = toReturn;
     return toReturn;
   }
 }

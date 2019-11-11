@@ -3,6 +3,7 @@ import 'package:lets_play_atl/model/Event.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
+import 'sdgScreen.dart';
 
 
 class EventDetails extends StatefulWidget {
@@ -28,6 +29,12 @@ class _EventDetailsState extends State<EventDetails> {
 //    }
 
     String startTime = "Not set", endTime = "Not set";
+    String tagString = "";
+    if (event.tags != null) {
+      for (int i = 0; i < event.tags.length; i++) {
+        tagString += event.tags[i] + " ";
+      }
+    }
     print(event.dateStart);
 
     if (event.dateStart != null && event.dateEnd != null) {
@@ -86,6 +93,13 @@ class _EventDetailsState extends State<EventDetails> {
                   child:  Center(child: Text('Details: $description')),
                 ),),
               GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 50,
+                  color: Colors.blue[600],
+                  child:  Center(child: Text('Tags: $tagString')),
+                ),),
+              GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushNamed("/editEvent", arguments: event);
                 },
@@ -94,8 +108,17 @@ class _EventDetailsState extends State<EventDetails> {
                   color: Colors.blue[600],
                   child:  Center(child: Text("Edit Event")),
                 ),),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SDGListScreen(widget.singleton, sdgList: event.sdgs,)));
+                },
+                child: Container(
+                  height: 50,
+                  color: Colors.blue[600],
+                  child:  Center(child: Text("Show Associated SDGs")),
+                ),),
               Visibility(
-                  visible: widget.singleton.citizenProvider.getCurrentUser().isAdmin,
+                  visible: (widget.singleton.citizenProvider.getCurrentUser().isAdmin != null || widget.singleton.citizenProvider.getCurrentUser().isAdmin),
                   child: GestureDetector(
                 onTap: (){
                 },

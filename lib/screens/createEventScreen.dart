@@ -10,6 +10,8 @@ import 'package:lets_play_atl/model/Event.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart' as GPSLocation;
 import 'findLocations.dart';
+import 'sdgScreen.dart';
+
 class CreateEventScreen extends StatefulWidget {
   Singleton singleton;
   CreateEventScreen(this.singleton);
@@ -30,7 +32,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   String eventHintText;
   String apiKey = "AIzaSyALI1hjJwA0xHRO9b3CIFQLSc7UqfI75sc";
   bool isOngoing;
-  LatLng location = LatLng(0,0);
+  LatLng location = LatLng(0, 0);
   _CreateEventScreenState() {
     eventHintText = "Choose a location!";
     this.isOngoing = false;
@@ -41,27 +43,27 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         this.eventHintText = "My Current Location (Tap to Change!)";
       });
     });
-
-
   }
   String dateText = "Choose Date";
   DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now().add(Duration(hours:1));
-
+  DateTime endTime = DateTime.now().add(Duration(hours: 1));
 
   @override
   Widget build(BuildContext context) {
 //    List<Event> events = widget.singleton.eventProvider.getAllEvents();
-    placePicker = PlacesAutocompleteFieldV2(apiKey: apiKey, hint: eventHintText, onChanged:
-        (p){
-      GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey:apiKey);
-      _places.getDetailsByPlaceId(p.id).then((details) {
-        this.setState((){
-          location = new LatLng(details.result.geometry.location.lat, details.result.geometry.location.lng);
-          print(details);
+    placePicker = PlacesAutocompleteFieldV2(
+      apiKey: apiKey,
+      hint: eventHintText,
+      onChanged: (p) {
+        GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
+        _places.getDetailsByPlaceId(p.id).then((details) {
+          this.setState(() {
+            location = new LatLng(details.result.geometry.location.lat,
+                details.result.geometry.location.lng);
+            print(details);
+          });
         });
-      });
-    },
+      },
     );
     return new Scaffold(
         backgroundColor: Colors.lightGreen[50],
@@ -102,26 +104,30 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         color: Colors.grey),
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.green)),
-                  errorText: _validateName ? 'Value Can\'t Be Empty': null),
+                    errorText: _validateName ? 'Value Can\'t Be Empty' : null),
               ),
               SizedBox(height: 10.0),
               Timepicker((time) {
                 this.setState(() {
                   startTime = time;
                 });
-              }, "PICK START TIME: " + DateFormat("MM-dd-yy, hh:mm").format(startTime)),
+              },
+                  "PICK START TIME: " +
+                      DateFormat("MM-dd-yy, hh:mm").format(startTime)),
               SizedBox(height: 10.0),
               Timepicker((time) {
                 this.setState(() {
                   endTime = time;
                 });
-              }, "PICK END TIME: " + DateFormat("MM-dd-yy, hh:mm").format(endTime)),
+              },
+                  "PICK END TIME: " +
+                      DateFormat("MM-dd-yy, hh:mm").format(endTime)),
               SizedBox(height: 10.0),
               placePicker,
               SizedBox(height: 10.0),
               FlatButton(
-                onPressed: (){
-
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseSDGList([], widget.singleton)));
                 },
                 child: Text("PICK SUSTAINABLE DEVELOPMENT GOALS"),
               ),
@@ -138,40 +144,63 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         color: Colors.grey),
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.green)),
-                  errorText: _validateDescription ? 'Value Can\'t Be Empty': null),
+                    errorText:
+                        _validateDescription ? 'Value Can\'t Be Empty' : null),
                 obscureText: false,
               ),
               SizedBox(height: 10.0),
               GestureDetector(
                   onTap: () {
                     setState(() {
-                      nameController.text.isEmpty ? _validateName = true : _validateName = false;
-                      descriptionController.text.isEmpty ? _validateDescription = true : _validateDescription = false;
+                      nameController.text.isEmpty
+                          ? _validateName = true
+                          : _validateName = false;
+                      descriptionController.text.isEmpty
+                          ? _validateDescription = true
+                          : _validateDescription = false;
                     });
-                    if ((_validateName == false) && (_validateDescription == false)) {
-                        User currentUser =
-                        widget.singleton.citizenProvider.getCurrentUser();
-                    Event e = Event(
+                    if ((_validateName == false) &&
+                        (_validateDescription == false)) {
+                      User currentUser =
+                          widget.singleton.citizenProvider.getCurrentUser();
+                      Event e = Event(
                         name: nameController.text,
                         description: descriptionController.text,
                         dateStart: startTime,
                         dateEnd: endTime,
-                    );
-                    if (location.longitude != 0 || location.latitude != 0) {
-                      e.longitude = location.longitude;
-                      e.latitude = location.latitude;
-                    }
-                    widget.singleton.eventProvider
-                        .createEvent(e, currentUser.email, currentUser.password)
-                        .then((res) {
-                          if (res) {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/eventDetails',
-                                ModalRoute.withName('/main'),
-                                arguments: e);
-                          } else {
-                            AlertDialog(
-                              title: Text("Event Creation Failed"),
+                      );
+                      if (location.longitude != 0 || location.latitude != 0) {
+                        e.longitude = location.longitude;
+                        e.latitude = location.latitude;
+                      }
+                      widget.singleton.eventProvider
+                          .createEvent(
+                              e, currentUser.email, currentUser.password)
+                          .then((res) {
+                        if (res) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/eventDetails', ModalRoute.withName('/main'),
+                              arguments: e);
+                        } else {
+                          AlertDialog(
+                            title: Text("Event Creation Failed"),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text("Ok"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                      });
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Invalid input"),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text("Ok"),
@@ -181,27 +210,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 ),
                               ],
                             );
-                          }
-                        });
+                          });
                     }
-                    else {
-                        showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                        return AlertDialog(
-                        title: Text("Invalid input"),
-                        actions: <Widget>[
-                        FlatButton(
-                        child: Text("Ok"),
-                        onPressed: () {
-                        Navigator.of(context).pop();
-                        },
-                        ),
-                        ],
-                        );
-
-                        });
-                        };
+                    ;
 //                        MaterialPageRoute(
 ////                        builder: (context) => eventDetails(name: nameController,));
                   },
@@ -278,5 +289,4 @@ class LocationPicker extends StatelessWidget {
     // TODO: implement build
     return null;
   }
-
 }
