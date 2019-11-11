@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             new RegistrationScreen(singleton),
         '/login': (BuildContext context) => new LoginScreen(singleton),
         '/events': (BuildContext context) => new EventList(singleton),
-        '/eventDetails': (BuildContext context) => new EventDetails(),
+        '/eventDetails': (BuildContext context) => new EventDetails(singleton: singleton,),
         '/main': (BuildContext context) => new AfterLoginScreen(singleton),
         '/createEvent': (BuildContext context) =>
             new CreateEventScreen(singleton),

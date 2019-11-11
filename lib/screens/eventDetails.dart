@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lets_play_atl/model/Event.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:intl/intl.dart';
+import 'package:lets_play_atl/providers/singleton.dart';
 
 
 class EventDetails extends StatefulWidget {
   Event event;
-  EventDetails({this.event});
+  Singleton singleton;
+  EventDetails({this.event, this.singleton});
   @override
   _EventDetailsState createState() => _EventDetailsState(event);
 }
@@ -92,6 +94,16 @@ class _EventDetailsState extends State<EventDetails> {
                   color: Colors.blue[600],
                   child:  Center(child: Text("Edit Event")),
                 ),),
+              Visibility(
+                  visible: widget.singleton.citizenProvider.getCurrentUser().isAdmin,
+                  child: GestureDetector(
+                onTap: (){
+                },
+                child: FlatButton(
+                  color: Colors.amberAccent,
+                  child: Text("Delete Event"),
+                ),
+              ))
             ]),
       ),
     );
