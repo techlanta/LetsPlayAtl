@@ -22,6 +22,7 @@ class Event {
   double longitude;
   String eventID;
   List<SDG> sdgs;
+  List<String> tags;
 //  String startTime; //string for now, but should be datetime
 //  String endTime; //string for now, but should be datetime
   String date; //string for now, but should be datetime
@@ -50,6 +51,14 @@ class Event {
     }
     jsonDict["latitude"] = this.latitude;
     jsonDict["longitude"] = this.longitude;
+    if (sdgs != null) {
+      jsonDict["sdg"] = [];
+      for (SDG sdg_item in sdgs) {
+        jsonDict["sdg"].add({
+          "id": sdg_item.id
+        });
+      }
+    }
     return jsonDict;
   }
 
@@ -62,7 +71,7 @@ class Event {
     }
     latitude = rawData["latitude"];
     longitude = rawData["longitude"];
-
+    description = rawData["description"];
   }
 
 

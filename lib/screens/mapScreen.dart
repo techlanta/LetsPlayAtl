@@ -21,6 +21,11 @@ class MapScreenState extends State<MapScreen> {
   LatLng latLng;
   List<Marker> markers;
   MapScreenState(this.latLng) {
+    _nearestEvent =  CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(33.7766829, -84.389561),
+        tilt: 59.440717697143555,
+        zoom: 19.151926040649414);
     Location location = new Location();
     events = [];
     markers = [];
@@ -30,6 +35,15 @@ class MapScreenState extends State<MapScreen> {
         widget.singleton.eventProvider.getAllEventsNearLocation(latLng).then((newEvents) {
           this.setState(() {
             events = newEvents;
+            if (events.length > 0) {
+              this.setState(() {
+                _nearestEvent = CameraPosition(
+                    bearing: 192.8334901395799,
+                    target: LatLng(events[0].latitude, events[0].longitude),
+                    tilt: 59.440717697143555,
+                    zoom: 19.151926040649414);
+              });
+            }
             for (int i = 0; i < events.length; i++) {
               Event e = events[i];
               print(e.toJsonDict());
@@ -72,11 +86,7 @@ class MapScreenState extends State<MapScreen> {
 
 
 
-  static final CameraPosition _nearestEvent = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(33.7766829, -84.389561),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  CameraPosition _nearestEvent;
 
   @override
   Widget build(BuildContext context) {
