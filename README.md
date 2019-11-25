@@ -1,5 +1,9 @@
 # Lets Play Atl
-Install Guide: Let’s Play ATL v1.0
+
+# Release Notes
+Version 1.0 of the flutter application, Let's Play ATL. This version includes Google maps integration, the ability to create and modify events, a separation between citizens and organizers, and the ability to tag and search for events. There are no known bugs. The next version will include notifications, a screen for feedback to event organizers, and a potential scavenger hunt feature for users.
+
+# Install Guide: Let’s Play ATL v1.0
 # PRE-REQUISITES
 You must have the Flutter SDK installed (see https://flutter.dev/docs/get-started/install) along with Android Studio. Setup a server with a connection to a MySQL dataset.
 # DEPENDENCIES
