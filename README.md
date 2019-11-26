@@ -19,9 +19,6 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 	https://github.com/techlanta/LetsPlayATLServer/archive/v1.0.zip
 # BUILD
 	No build necessary.
-# INSTALLATION
-	
 # RUNNING APPLICATION
   Use Android or iPhone with Android Studio or with XCode
 	Any text editor (see https://flutter.dev/docs/get-started/editor)
-
