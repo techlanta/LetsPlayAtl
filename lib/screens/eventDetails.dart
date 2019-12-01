@@ -3,7 +3,6 @@ import 'package:lets_play_atl/model/Event.dart';
 import 'package:date_utils/date_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
-import 'package:lets_play_atl/screens/eventList.dart';
 
 
 class EventDetails extends StatefulWidget {
@@ -22,10 +21,9 @@ class _EventDetailsState extends State<EventDetails> {
     Event event = ModalRoute.of(context).settings.arguments;
     String name = event.name;
     String date = event.date;
-    if (event.dateStart != null) {
-      date = DateFormat("MM-dd-yy").format(event.dateStart);
-    }
-// else {
+//    if (event.dateStart != null) {
+//      date = event.dateStart.toString();
+//    } else {
 //      date = "ONGOING!";
 //    }
 
@@ -33,8 +31,8 @@ class _EventDetailsState extends State<EventDetails> {
     print(event.dateStart);
 
     if (event.dateStart != null && event.dateEnd != null) {
-      startTime = DateFormat("hh:mm").format(event.dateStart);
-      endTime = DateFormat("hh:mm").format(event.dateEnd);
+      startTime = DateFormat("MM-dd-yy, hh:mm").format(event.dateStart);
+      endTime = DateFormat("MM-dd-yy, hh:mm").format(event.dateEnd);
     }
     String description = event.description;
 
@@ -56,7 +54,6 @@ class _EventDetailsState extends State<EventDetails> {
                 onTap: () {},
                 child: Container(
                   height: 50,
-                  padding: const EdgeInsets.all(12.0),
                   color: Colors.blue[600],
                   child: Center(child: Text('Name: $name')),
                 ),),
@@ -92,25 +89,23 @@ class _EventDetailsState extends State<EventDetails> {
                 onTap: () {
                   Navigator.of(context).pushNamed("/editEvent", arguments: event);
                 },
-                child:Container(
-                  height:50,
-                  color: Colors.red,
-                  child: Center(child: Text("Edit Event")),
-//                ),),
-
-//              Visibility(
-//                  visible: widget.singleton.citizenProvider.getCurrentUser().isAdmin,
-//                  child: GestureDetector(
-//                onTap: (){
-//                },
-//                child: FlatButton(
-//                  color: Colors.amberAccent,
-//                  child: Text("Delete Event"),
-//                ),
-//              ))
-              )]),
+                child: Container(
+                  height: 50,
+                  color: Colors.blue[600],
+                  child:  Center(child: Text("Edit Event")),
+                ),),
+              Visibility(
+                  visible: widget.singleton.citizenProvider.getCurrentUser().isAdmin,
+                  child: GestureDetector(
+                    onTap: (){
+                    },
+                    child: FlatButton(
+                      color: Colors.amberAccent,
+                      child: Text("Delete Event"),
+                    ),
+                  ))
+            ]),
       ),
     );
   }
 }
-
