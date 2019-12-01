@@ -110,6 +110,7 @@ class _EventDetailsState extends State<EventDetails> {
                 ),),
               GestureDetector(
                 onTap: () {
+                  print(event.sdgs);
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => SDGListScreen(widget.singleton, sdgList: event.sdgs,)));
                 },
                 child: Container(
@@ -118,7 +119,7 @@ class _EventDetailsState extends State<EventDetails> {
                   child:  Center(child: Text("Show Associated SDGs")),
                 ),),
               Visibility(
-                  visible: (widget.singleton.citizenProvider.getCurrentUser().isAdmin != null || widget.singleton.citizenProvider.getCurrentUser().isAdmin),
+                  visible: (widget.singleton.citizenProvider.getCurrentUser().isAdmin != null && widget.singleton.citizenProvider.getCurrentUser().isAdmin),
                   child: GestureDetector(
                 onTap: (){
                 },

@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:location/location.dart' as GPSLocation;
 import 'findLocations.dart';
 import 'sdgScreen.dart';
+import 'package:lets_play_atl/model/SDG.dart';
 
 class CreateEventScreen extends StatefulWidget {
   Singleton singleton;
@@ -47,6 +48,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   String dateText = "Choose Date";
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now().add(Duration(hours: 1));
+  List<SDG> sdgList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +129,13 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               SizedBox(height: 10.0),
               FlatButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseSDGList([], widget.singleton)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseSDGList(widget.singleton, (sdgList){
+                    this.setState(() {
+                      this.sdgList = sdgList;
+                    });
+                  })));
                 },
-                child: Text("PICK SUSTAINABLE DEVELOPMENT GOALS"),
+                child: Text(sdgList.length==0?"PICK SUSTAINABLE DEVELOPMENT GOALS":"SDGs Picked!"),
               ),
               TextField(
                 controller: descriptionController,
@@ -173,6 +179,8 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         e.longitude = location.longitude;
                         e.latitude = location.latitude;
                       }
+
+                      e.sdgs = this.sdgList;
                       widget.singleton.eventProvider
                           .createEvent(
                               e, currentUser.email, currentUser.password)

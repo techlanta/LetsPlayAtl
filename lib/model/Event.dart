@@ -78,6 +78,11 @@ class Event {
        tags.add(rawData["tags"][i].toString());
       }
     }
+    if (rawData.containsKey("sdg")) {
+      for (int i = 0; i < rawData["sdg"].length; i++) {
+        this.sdgs.add(SDG().parseRawJson(rawData["sdg"][i]));
+      }
+    }
 //    if (rawData.containsKey(""))
   }
 

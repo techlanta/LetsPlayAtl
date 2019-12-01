@@ -5,11 +5,10 @@ import 'package:lets_play_atl/model/SDG.dart';
 import 'package:lets_play_atl/providers/singleton.dart';
 import 'package:location/location.dart';
 
-
 class ChooseSDGList extends StatefulWidget {
-  List<SDG> sdgs;
   Singleton singleton;
-  ChooseSDGList(this.sdgs, this.singleton);
+  Function callback;
+  ChooseSDGList(this.singleton, this.callback);
   @override
   ChooseSDGListState createState() {
     return ChooseSDGListState(singleton);
@@ -18,17 +17,37 @@ class ChooseSDGList extends StatefulWidget {
 
 class ChooseSDGListState extends State<ChooseSDGList> {
   Widget body;
+  List<SDG> sdgList;
   ChooseSDGListState(Singleton singleton) {
     body = Center(child: CircularProgressIndicator());
     singleton.sdgProvider.getAllSDG().then((sdgList) {
+      this.sdgList = sdgList;
       this.setState(() {
-        body = ListView.builder(itemCount: sdgList.length, itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (c) => SDGScreen(sdgList[index])));
-              },
-              child: SDGPickCard(sdgList[index]));
-        });
+        body = Column(children: [
+          Container(
+              height: 80,
+              child: Card(child:FlatButton(
+                child: Text("DONE"),
+                onPressed: () {
+                  widget.callback(sdgList.where((sdg) => sdg.isPicked).toList());
+                  Navigator.pop(context);
+                },
+              ))),
+          Expanded(
+              child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: sdgList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => SDGScreen(sdgList[index])));
+                        },
+                        child: SDGPickCard(sdgList[index], (){}));
+                  }))
+        ]);
       });
     });
   }
@@ -36,8 +55,7 @@ class ChooseSDGListState extends State<ChooseSDGList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Sustainable Development Goals")),
-        body: body
-    );
+        body: body);
   }
 }
 
@@ -51,7 +69,6 @@ class SDGListScreen extends StatefulWidget {
   SDGListScreenState createState() {
     return SDGListScreenState(singleton, sdgList);
   }
-
 }
 
 class SDGListScreenState extends State<SDGListScreen> {
@@ -61,27 +78,33 @@ class SDGListScreenState extends State<SDGListScreen> {
     body = Center(child: CircularProgressIndicator());
     if (sdgList != null) {
       if (sdgList.length == 0) {
-          body = Center(child: Text("No Sustainable Development Goals!"));
+        body = Center(child: Text("No Sustainable Development Goals!"));
       } else {
-          body = ListView.builder(itemCount: sdgList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (c) =>
-                          SDGScreen(sdgList[index])));
-                    },
-                    child: SDGCard(sdgList[index]));
-              });
+        body = ListView.builder(
+            itemCount: sdgList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => SDGScreen(sdgList[index])));
+                  },
+                  child: SDGCard(sdgList[index]));
+            });
       }
     } else {
       singleton.sdgProvider.getAllSDG().then((sdgList) {
         this.setState(() {
-          body = ListView.builder(itemCount: sdgList.length,
+          body = ListView.builder(
+              itemCount: sdgList.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (c) =>
-                          SDGScreen(sdgList[index])));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (c) => SDGScreen(sdgList[index])));
                     },
                     child: SDGCard(sdgList[index]));
               });
@@ -92,11 +115,9 @@ class SDGListScreenState extends State<SDGListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sustainable Development Goals")),
-        body: body
-    );
+        appBar: AppBar(title: Text("Sustainable Development Goals")),
+        body: body);
   }
-
 }
 
 class SDGScreen extends StatelessWidget {
@@ -110,16 +131,12 @@ class SDGScreen extends StatelessWidget {
       appBar: AppBar(title: Text(sdg.title)),
       body: Column(
         children: <Widget>[
-          Container(
-            color: Colors.green,
-      child: Image.network(sdg.imageLink)),
+          Container(color: Colors.green, child: Image.network(sdg.imageLink)),
           Text(sdg.description)
-    ],
-    ),
+        ],
+      ),
     );
   }
-
-
 }
 
 class SDGCard extends StatelessWidget {
@@ -129,41 +146,46 @@ class SDGCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        title: Text(sdg.title),
-        leading: Text(sdg.id),
-      )
-    );
+        child: ListTile(
+      title: Text(sdg.title),
+      leading: Text(sdg.id),
+    ));
   }
 }
 
 class SDGPickCard extends StatefulWidget {
   final SDG sdg;
+  final Function callback;
 
-  SDGPickCard(this.sdg);
+  SDGPickCard(this.sdg, this.callback);
 
   @override
   State<StatefulWidget> createState() {
-    return SDGPickCardState();
+    return SDGPickCardState(sdg);
   }
 }
 
 class SDGPickCardState extends State<SDGPickCard> {
   bool isPicked;
-  SDGPickCardState() {
+  SDG sdg;
+  SDGPickCardState(this.sdg) {
     isPicked = false;
+    sdg.isPicked = false;
   }
   @override
   Widget build(BuildContext context) {
     return Card(
         child: ListTile(
-          title: Text(widget.sdg.title),
-          leading: Checkbox(value: isPicked, onChanged: (res) {
-            this.setState(() {
-              isPicked = res;
-            });
-          },),
-        )
-    );
+      title: Text(sdg.title),
+      leading: Checkbox(
+        value: isPicked,
+        onChanged: (res) {
+          this.setState(() {
+            isPicked = res;
+            sdg.isPicked = res;
+          });
+        },
+      ),
+    ));
   }
 }
